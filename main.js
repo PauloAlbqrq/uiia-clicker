@@ -12,14 +12,43 @@ resizeCanvas();
 
 const input = new Input()
 
+const imageSources = {
+	cat: "./sprites/cat.png",
+	text: "./sprites/SMW.Monospace.png"
+}
+
+const images = {}
+var loadedImages = 0
+const totalImages = Object.keys(imageSources).length
+
+function loadImages(callback) {
+	for (let key in imageSources){
+		images[key] = new Image()
+		images[key].src = imageSources[key]
+		images[key].onload = () => {
+			loadedImages++
+			if (loadedImages === totalImages) {
+				callback()
+			}
+		}
+	}
+}
+loadImages(main)
+
 var pos = new Vector2()
 var vel = new Vector2()
 
-const grid = new Vector2()
-const sprite = new Sprite("./sprites/cat.png")
-var x = 0
+//const image = new Image()
+//image.src = "./sprites/cat.png"
+//const grid = new Vector2()
+//const sprite = new Sprite(image)
+//var x = 0
 
 const texto = new TextSprite(ctx)
+function main(){
+
+	console.log(images)	
+}
 
 function draw() {
 	ctx.fillStyle = "white"
@@ -31,9 +60,5 @@ function draw() {
 	vel.y = (input.keys["s"] - input.keys["w"])
 	pos = pos.add(vel)
 
-	texto.draw("agora eu consigo escrever", 10, 10)
-	texto.draw("uns texto igual snes", 10, 28)
-
 	requestAnimationFrame(draw)
 }
-draw()

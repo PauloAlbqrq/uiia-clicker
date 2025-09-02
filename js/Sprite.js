@@ -1,11 +1,13 @@
 import {Vector2} from './Vector2.js'
 
 export class Sprite{
-	constructor(image,
+	constructor(ctx,
+		image,
 		grid = new Vector2(1, 1), 
 		animations = {"idle": [[0, 0]]}){
-		this.image = new Image()
-		this.image.src = image
+
+		this.image = image
+	
 		this.pos = new Vector2()
 		this.grid = grid
 
@@ -15,10 +17,8 @@ export class Sprite{
 		this.elapsedTime = 0;
 		this.frameDuration = 100;
 		
-		this.image.onload = () => {
-			this.frameWidth = this.image.width / this.grid.x
-			this.frameHeight = this.image.height / this.grid.y
-		}
+		this.frameWidth = this.image.width / this.grid.x
+		this.frameHeight = this.image.height / this.grid.y
 	}
 	play(name){
 		if (this.animations[name] && 
@@ -28,7 +28,7 @@ export class Sprite{
 			this.elapsedTime = 0;
 		}
 	}
-	draw(ctx){
+	draw(){
 		const frames = this.animations[this.currentAnimation]
 		const [col, row] = frames[this.frameIndex]
 

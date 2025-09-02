@@ -1,9 +1,7 @@
 export class TextSprite{
-	constructor(ctx){
-		this.fontImage = new Image()
-		this.fontImage.src = "./sprites/SMW.Monospace.png"
+	constructor(ctx, image){
+		this.fontImage = image
 		this.chars = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~∎ÄÖÜäöüßàáāèéēìíīòóōőùúūűçčćšđžñÑë→↑←↓↔≈²³"
-		this.loaded = false
 		this.charWidth = 8
 		this.charHeight = 11
 		this.charsPerRow = 16
