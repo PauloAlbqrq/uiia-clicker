@@ -1,39 +1,81 @@
-const canvas = document.getElementById("canvas")
-const ctx = canvas.getContext("2d")
-
-import {Vector2} from './js/Vector2.js'
 import {resizeCanvas} from './js/resizeCanvas.js'
-import {TextSprite} from './js/TextSprite.js'
-import {Input} from './js/Input.js'
-import {Sprite} from './js/Sprite.js'
 
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas(); 
 
-const input = new Input()
+// Get the WebGL rendering context
+var gl = canvas.getContext('webgl', {antialias: false});
 
-var pos = new Vector2()
-var vel = new Vector2()
+// Vertex shader
+var vshader = `
+attribute vec4 position;
+void main() {
+  gl_Position = position;
+}`;
 
-const grid = new Vector2()
-const sprite = new Sprite("./sprites/cat.png")
-var x = 0
+// Fragment shader
+var fshader = `
+precision mediump float;
+uniform vec4 color;
+void main() {
+  gl_FragColor = color;
+}`;
 
-const texto = new TextSprite(ctx)
+// Compile the vertex shader
+var vs = gl.createShader(gl.VERTEX_SHADER);
+gl.shaderSource(vs, vshader);
+gl.compileShader(vs);
 
-function draw() {
-	ctx.fillStyle = "white"
-	ctx.fillRect(0, 0, canvas.width, canvas.height)
+// Compile the fragment shader
+var fs = gl.createShader(gl.FRAGMENT_SHADER);
+gl.shaderSource(fs, fshader);
+gl.compileShader(fs);
 
-	sprite.draw(ctx)
+// Create the WebGL program and use it
+var program = gl.createProgram();
+gl.attachShader(program, vs);
+gl.attachShader(program, fs);
+gl.linkProgram(program);
+gl.useProgram(program);
 
-	vel.x = (input.keys["d"] - input.keys["a"])
-	vel.y = (input.keys["s"] - input.keys["w"])
-	pos = pos.add(vel)
+// Log compilation errors, if any
+console.log('vertex shader:', gl.getShaderInfoLog(vs) || 'OK');
+console.log('fragment shader:', gl.getShaderInfoLog(fs) || 'OK');
+console.log('program:', gl.getProgramInfoLog(program) || 'OK');
 
-	texto.draw("agora eu consigo escrever", 10, 10)
-	texto.draw("uns texto igual snes", 10, 28)
+var position = gl.getAttribLocation(program, 'position')
+var color = gl.getUniformLocation(program, 'color')
 
-	requestAnimationFrame(draw)
-}
-draw()
+gl.uniform4f(color, 1, 0, 0, 1)
+
+var vertices = new Float32Array([
+	0, 0.5, 0,
+	-0.5, -0.5, 0,
+	0.5, -0.5, 0
+])
+
+var buffer = gl.createBuffer()
+gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW)
+gl.vertexAttribPointer(
+	position,
+	3,
+	gl.FLOAT,
+	false,
+	0,
+	0
+)
+gl.enableVertexAttribArray(position)
+
+// Set the clear color (black)
+gl.clearColor(1.0, 1.0, 1.0, 1.0);
+
+// Clear the canvas
+gl.clear(gl.COLOR_BUFFER_BIT);
+
+// Draw points
+gl.drawArrays(
+  gl.TRIANGLES, // mode
+  0,         // starting point
+  3          // number of points to draw
+);
