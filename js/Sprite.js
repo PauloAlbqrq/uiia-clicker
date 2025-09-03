@@ -5,6 +5,7 @@ export class Sprite{
 		image,
 		grid = new Vector2(1, 1), 
 		animations = {"idle": [[0, 0]]}){
+		this.ctx = ctx
 
 		this.image = image
 	
@@ -35,7 +36,7 @@ export class Sprite{
 		const s = new Vector2(col * this.frameWidth,
 					row * this.frameHeight)
 
-		ctx.drawImage(
+		this.ctx.drawImage(
 		this.image,
 		s.x, s.y, this.frameWidth, this.frameHeight,
 		this.pos.x, this.pos.y,

@@ -33,28 +33,25 @@ function loadImages(callback) {
 		}
 	}
 }
-loadImages(main)
+loadImages(setup)
 
-var pos = new Vector2()
-var vel = new Vector2()
+function setup(){
 
-//const image = new Image()
-//image.src = "./sprites/cat.png"
-//const grid = new Vector2()
-//const sprite = new Sprite(image)
-//var x = 0
+	var pos = new Vector2()
+	var vel = new Vector2()
 
-const texto = new TextSprite(ctx)
-function main(){
+	const grid = new Vector2()
+	const sprite = new Sprite(ctx, images.cat)
 
-	console.log(images)	
-}
+	//const texto = new TextSprite(ctx)
+	requestAnimationFrame(draw)
+} 
 
 function draw() {
 	ctx.fillStyle = "white"
 	ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-	sprite.draw(ctx)
+	sprite.draw()
 
 	vel.x = (input.keys["d"] - input.keys["a"])
 	vel.y = (input.keys["s"] - input.keys["w"])
