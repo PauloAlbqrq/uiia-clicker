@@ -1,4 +1,4 @@
-import {Vector2} from './Vector2.js'
+import {Vector2} from './utils.js'
 
 export class Sprite{
 	constructor(ctx,
@@ -14,9 +14,9 @@ export class Sprite{
 
 		this.animations = animations
 		this.currentAnimation = Object.keys(animations)[0]
-		this.frameIndex = 0;
-		this.elapsedTime = 0;
-		this.frameDuration = 100;
+		this.frameIndex = 0
+		this.elapsedTime = 0
+		this.frameDuration = 50
 		
 		this.frameWidth = this.image.width / this.grid.x
 		this.frameHeight = this.image.height / this.grid.y
@@ -30,7 +30,16 @@ export class Sprite{
 		}
 	}
 	draw(){
+		
 		const frames = this.animations[this.currentAnimation]
+
+		this.elapsedTime++
+		if(this.elapsedTime >= this.frameDuration){
+			this.frameIndex++
+			this.elapsedTime = 0
+		}
+		if(this.frameIndex >= frames.length) this.frameIndex = 0
+
 		const [col, row] = frames[this.frameIndex]
 
 		const s = new Vector2(col * this.frameWidth,
