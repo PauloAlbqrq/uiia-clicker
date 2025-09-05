@@ -31,7 +31,8 @@ export class Input {
                 a: 0,
                 s: 0,
                 d: 0,
-                z: 0
+                z: 0,
+		shift: 0
                 }
 
                 window.addEventListener("keydown", (e) => {

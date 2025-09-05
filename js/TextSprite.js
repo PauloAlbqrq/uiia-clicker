@@ -2,7 +2,7 @@ import {Vector2} from './utils.js'
 export class TextSprite{
 	constructor(ctx, image, text, pos = new Vector2()){
 		this.fontImage = image
-		this.chars = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~∎ÄÖÜäöüßàáāèéēìíīòóōőùúūűçčćšđžñÑë→↑←↓↔≈²³"
+		this.chars = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~∎ÄÖÜäöüßàáãèéēìíīòóõőùúūűçčćšđžñÑë→↑←↓↔≈²³"
 		this.charWidth = 8
 		this.charHeight = 11
 		this.charsPerRow = 16

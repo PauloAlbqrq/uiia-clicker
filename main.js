@@ -1,43 +1,21 @@
-const canvas = document.getElementById("canvas")
-const ctx = canvas.getContext("2d")
+import {Scene} from "./js/Scene.js"
+import {Sprite} from "./js/Sprite.js"
+import {TextSprite} from "./js/TextSprite.js"
+import {Vector2} from "./js/utils.js"
 
-import {TextSprite} from './js/TextSprite.js'
-import {Sprite} from './js/Sprite.js'
-import {Vector2, resizeCanvas, Input} from './js/utils.js'
-
-window.addEventListener("resize", resizeCanvas);
-resizeCanvas(); 
-
-const input = new Input()
-
-const imageSources = {
-	cat: "./sprites/cat.png",
-	text: "./sprites/SMW.Monospace.png"
-}
-
-const sprites = {}
-const vel = new Vector2()
-
-const images = {}
-var loadedImages = 0
-const totalImages = Object.keys(imageSources).length
-
-function loadImages(callback) {
-	for (let key in imageSources){
-		images[key] = new Image()
-		images[key].src = imageSources[key]
-		images[key].onload = () => {
-			loadedImages++
-			if (loadedImages === totalImages) {
-				callback()
-			}
+class MainScene extends Scene{
+	preload(){
+		this.imageSources = {
+			cat: "./sprites/cat.png",
+			text: "./sprites/SMW.Monospace.png",
+			map: "https://www.spriters-resource.com/media/assets/179/182049.png?updated=1755487190"
 		}
 	}
-}
-loadImages(setup)
+	create(){
+		this.vel = new Vector2()
+		this.sprites = {}
 
-function setup(){
-	const animation = {idle_down: [[0, 0]],
+		const animation = {idle_down: [[0, 0]],
 			idle_right: [[0, 1]],
 			idle_up: [[0, 2]],
 			idle_left: [[0, 3]],
@@ -46,31 +24,29 @@ function setup(){
 			walk_up: [[0, 2], [1, 2], [2, 2], [3, 2]],
 			walk_left: [[0, 3], [1, 3], [2, 3], [3, 3]],
 			}
-	const grid = new Vector2(4, 9)
-	sprites.cat = new Sprite(ctx, images.cat, grid, animation)
-	sprites.cat.frameDuration = 10
+		const grid = new Vector2(4, 9)
+		this.sprites.cat = new Sprite(this.ctx, this.images.cat, grid, animation)
+		this.sprites.cat.frameDuration = 7
 
-	sprites.texto = new TextSprite(ctx, images.text, "texto")
+		this.sprites.texto = new TextSprite(this.ctx, this.images.text, "agr eu consigo animações e tal", new Vector2(10, 10))
 
-	requestAnimationFrame(draw)
-} 
+		//sprites.map = new Sprite(ctx, images.map)
+	}
+	update(){
+		this.sprites.cat.draw()
+		this.sprites.texto.draw()
 
-function draw() {
-	ctx.fillStyle = "white"
-	ctx.fillRect(0, 0, canvas.width, canvas.height)
+		this.vel.x = (this.input.keys["d"] - this.input.keys["a"])
+		this.vel.y = (this.input.keys["s"] - this.input.keys["w"])
+		this.sprites.cat.pos = this.sprites.cat.pos.add(this.vel)
 
-	sprites.cat.draw()
-	sprites.texto.draw()
-
-	vel.x = (input.keys["d"] - input.keys["a"])
-	vel.y = (input.keys["s"] - input.keys["w"])
-	sprites.cat.pos = sprites.cat.pos.add(vel)
-
-	if(vel.x > 0) sprites.cat.play("walk_right")
-	else if(vel.x < 0) sprites.cat.play("walk_left")
-	else if(vel.y > 0) sprites.cat.play("walk_down")
-	else if(vel.y < 0) sprites.cat.play("walk_up")
-	if(vel.x == 0 && vel.y == 0) sprites.cat.play(Object.keys(sprites.cat.animations)[Object.keys(sprites.cat.animations).indexOf(sprites.cat.currentAnimation)-4])
-
-	requestAnimationFrame(draw)
+		if(this.vel.x > 0) this.sprites.cat.play("walk_right")
+		else if(this.vel.x < 0) this.sprites.cat.play("walk_left")
+		else if(this.vel.y > 0) this.sprites.cat.play("walk_down")
+		else if(this.vel.y < 0) this.sprites.cat.play("walk_up")
+		if(this.vel.x == 0 && this.vel.y == 0) this.sprites.cat.play(Object.keys(this.sprites.cat.animations)[Object.keys(this.sprites.cat.animations).indexOf(this.sprites.cat.currentAnimation)-4])
+	}
 }
+
+const mainScene = new MainScene()
+mainScene.start()
