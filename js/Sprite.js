@@ -1,5 +1,5 @@
 import {Vector2} from './utils.js'
-import {Node} from './node.js'
+import {Node} from './Node.js'
 
 export class Sprite extends Node{
 	constructor(image,
@@ -29,6 +29,8 @@ export class Sprite extends Node{
 		}
 	}
 	render(ctx){
+		this.frameWidth = this.image.width / this.grid.x
+		this.frameHeight = this.image.height / this.grid.y
 		
 		const frames = this.animations[this.currentAnimation]
 
@@ -44,6 +46,7 @@ export class Sprite extends Node{
 		const s = new Vector2(col * this.frameWidth,
 					row * this.frameHeight)
 
+		
 		ctx.drawImage(
 		this.image,
 		s.x, s.y, this.frameWidth, this.frameHeight,

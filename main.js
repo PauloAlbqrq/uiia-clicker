@@ -56,5 +56,20 @@ import {Node} from "./js/Node.js"
 const mainScene = new MainScene()
 mainScene.start()**/
 
-root = new Node()
+const canvas = document.getElementById("canvas")
+const ctx = canvas.getContext("2d")
+ctx.imageSmoothingEnabled = false;
 
+const root = new Node()
+const catImage = new Image()
+catImage.src = "./sprites/cat.png"
+const cat = new Sprite(catImage)
+
+function update(){
+	cat.pos.x++
+
+	cat.draw()
+
+	requestAnimationFrame(update)
+}
+update()
