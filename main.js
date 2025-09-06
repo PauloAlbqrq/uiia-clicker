@@ -2,8 +2,9 @@ import {Scene} from "./js/Scene.js"
 import {Sprite} from "./js/Sprite.js"
 import {TextSprite} from "./js/TextSprite.js"
 import {Vector2} from "./js/utils.js"
+import {Node} from "./js/Node.js"
 
-class MainScene extends Scene{
+/**class MainScene extends Scene{
 	preload(){
 		this.imageSources = {
 			cat: "./sprites/cat.png",
@@ -25,8 +26,9 @@ class MainScene extends Scene{
 			walk_left: [[0, 3], [1, 3], [2, 3], [3, 3]],
 			}
 		const grid = new Vector2(4, 9)
-		this.sprites.cat = new Sprite(this.ctx, this.images.cat, grid, animation)
-		this.sprites.cat.frameDuration = 7
+		this.cat = new Sprite(this.ctx, this.images.cat, grid, animation)
+		this.sprites.cat = this.cat
+		this.cat.frameDuration = 7
 
 		this.sprites.texto = new TextSprite(this.ctx, this.images.text, "agr eu consigo animações e tal", new Vector2(10, 10))
 
@@ -36,17 +38,23 @@ class MainScene extends Scene{
 		this.sprites.cat.draw()
 		this.sprites.texto.draw()
 
+
 		this.vel.x = (this.input.keys["d"] - this.input.keys["a"])
 		this.vel.y = (this.input.keys["s"] - this.input.keys["w"])
-		this.sprites.cat.pos = this.sprites.cat.pos.add(this.vel)
+		this.cat.pos = this.cat.pos.add(this.vel)
 
-		if(this.vel.x > 0) this.sprites.cat.play("walk_right")
-		else if(this.vel.x < 0) this.sprites.cat.play("walk_left")
-		else if(this.vel.y > 0) this.sprites.cat.play("walk_down")
-		else if(this.vel.y < 0) this.sprites.cat.play("walk_up")
-		if(this.vel.x == 0 && this.vel.y == 0) this.sprites.cat.play(Object.keys(this.sprites.cat.animations)[Object.keys(this.sprites.cat.animations).indexOf(this.sprites.cat.currentAnimation)-4])
+		if(this.vel.x > 0) this.cat.play("walk_right")
+		else if(this.vel.x < 0) this.cat.play("walk_left")
+		else if(this.vel.y > 0) this.cat.play("walk_down")
+		else if(this.vel.y < 0) this.cat.play("walk_up")
+		if(this.vel.x == 0 && this.vel.y == 0) this.cat.play(Object.keys(this.cat.animations)[Object.keys(this.cat.animations).indexOf(this.cat.currentAnimation)-4])
+		
+		this.camera.follow(this.cat.pos.add(new Vector2(16, 25)))
 	}
 }
 
 const mainScene = new MainScene()
-mainScene.start()
+mainScene.start()**/
+
+root = new Node()
+

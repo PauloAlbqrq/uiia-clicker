@@ -1,15 +1,14 @@
 import {Vector2} from './utils.js'
+import {Node} from './node.js'
 
-export class Sprite{
-	constructor(ctx,
-		image,
+export class Sprite extends Node{
+	constructor(image,
 		grid = new Vector2(1, 1), 
 		animations = {"idle": [[0, 0]]}){
-		this.ctx = ctx
+		super()
 
 		this.image = image
 	
-		this.pos = new Vector2()
 		this.grid = grid
 
 		this.animations = animations
@@ -29,7 +28,7 @@ export class Sprite{
 			this.elapsedTime = 0;
 		}
 	}
-	draw(){
+	render(ctx){
 		
 		const frames = this.animations[this.currentAnimation]
 
@@ -45,7 +44,7 @@ export class Sprite{
 		const s = new Vector2(col * this.frameWidth,
 					row * this.frameHeight)
 
-		this.ctx.drawImage(
+		ctx.drawImage(
 		this.image,
 		s.x, s.y, this.frameWidth, this.frameHeight,
 		this.pos.x, this.pos.y,

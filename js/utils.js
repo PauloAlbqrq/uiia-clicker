@@ -18,6 +18,18 @@ export class Vector2{
                 return new Vector2(this.x + v.x,
                                 this.y + v.y)
         }
+	sub(v){
+		return new Vector2(this.x - v.x,
+				this.y - v.y)
+	}
+	mul(v){
+		return new Vector2(this.x * v.x,
+				this.y * v.x)
+	}
+	floor(){
+		return new Vector2(Math.floor(this.x),
+				Math.floor(this.y))
+	}
 }
 
 export class Input {

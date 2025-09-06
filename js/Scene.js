@@ -1,6 +1,7 @@
 import {Sprite} from "./Sprite.js"
 import {TextSprite} from "./TextSprite.js"
 import {Vector2, resizeCanvas, Input} from "./utils.js"
+import {Camera} from "./Camera.js"
 export class Scene{
 	constructor(canvas = document.getElementById("canvas")){
 		this.canvas = canvas
@@ -13,6 +14,8 @@ export class Scene{
 
 		this.imageSources = {}
 		this.images = {}
+		
+		this.camera = new Camera()
 	}
 	preload(){
 		//override
@@ -49,7 +52,14 @@ export class Scene{
 		this.ctx.fillStyle = "white"
 		this.ctx.fillRect(0, 0, canvas.width, canvas.height)
 
+		this.ctx.save()
+		this.ctx.translate(this.canvas.width / 2 - this.camera.pos.x,
+			this.canvas.height / 2 - this.camera.pos.y)
+
 		this.update()
+
+		this.ctx.restore()
+
 		requestAnimationFrame(this.loop.bind(this))
 	}
 }
