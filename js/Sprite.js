@@ -1,4 +1,4 @@
-import {Vector2} from './utils.js'
+import {Vector2} from './Game.js'
 import {Node} from './Node.js'
 
 export class Sprite extends Node{
@@ -28,7 +28,7 @@ export class Sprite extends Node{
 			this.elapsedTime = 0;
 		}
 	}
-	render(ctx){
+	render(){
 		this.frameWidth = this.image.width / this.grid.x
 		this.frameHeight = this.image.height / this.grid.y
 		
@@ -46,11 +46,10 @@ export class Sprite extends Node{
 		const s = new Vector2(col * this.frameWidth,
 					row * this.frameHeight)
 
-		
-		ctx.drawImage(
+		this.ctx.drawImage(
 		this.image,
 		s.x, s.y, this.frameWidth, this.frameHeight,
-		this.pos.x, this.pos.y,
+		0, 0,
 		this.frameWidth, this.frameHeight)
 	}
 }

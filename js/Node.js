@@ -1,7 +1,10 @@
-import {Vector2} from "./utils.js"
+import {Vector2} from "./Game.js"
 
 export class Node{
 	constructor(){
+		this.canvas = document.getElementById("canvas")
+		this.ctx = canvas.getContext("2d")
+
 		this.pos = new Vector2()
 		this.rotation = 0
 		this.scale = new Vector2(1, 1)
@@ -28,21 +31,34 @@ export class Node{
         }
     }
 
-	draw(ctx = document.getElementById("canvas").getContext("2d")){
-		ctx.save()
+	draw(){
+		this.ctx.save()
 
-		ctx.translate(this.pos.x, this.pos.y)
-		ctx.rotate(this.rotation)
-		ctx.scale(this.scale.x, this.scale.y)
-		this.render(ctx)
+		this.ctx.translate(this.pos.x, this.pos.y)
+		this.ctx.rotate(this.rotation)
+		this.ctx.scale(this.scale.x, this.scale.y)
+		
+		this.render()
 
 		for(let child of this.children){
-			child.draw(ctx)
+			child.draw()
 		}
 
-		ctx.restore()
+		this.ctx.restore()
 	}
-	render(ctx){
+	render(){
 		//does nothing
+	}
+
+	start(func){
+		this.ctx.fillStyle = "white"
+		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
+
+		func()
+		
+		this.update()
+		this.draw()
+
+		requestAnimationFrame(() => this.start(func))
 	}
 }
