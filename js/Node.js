@@ -25,6 +25,24 @@ export class Node{
 		}
     }
 
+	getRoot(){
+		let current = this
+		while (current.parent) current = current.parent
+		return current
+	}
+
+	getAllNodes(root){
+		const result = []
+		function walk(node){
+			result.push(node)
+			for (const child of node.children){
+				walk(child)
+			}
+		}
+		walk(root)
+		return result
+	}
+
 	update(deltaTime) {
         for (const child of this.children) {
             child.update(deltaTime);
@@ -50,7 +68,7 @@ export class Node{
 		//does nothing
 	}
 
-	start(func){
+	start(func = () => {}){
 		this.ctx.fillStyle = "white"
 		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
 
