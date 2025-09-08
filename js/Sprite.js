@@ -34,13 +34,6 @@ export class Sprite extends Node{
 		
 		const frames = this.animations[this.currentAnimation]
 
-		this.elapsedTime++
-		if(this.elapsedTime >= this.frameDuration){
-			this.frameIndex++
-			this.elapsedTime = 0
-		}
-		if(this.frameIndex >= frames.length) this.frameIndex = 0
-
 		const [col, row] = frames[this.frameIndex]
 
 		const s = new Vector2(col * this.frameWidth,
@@ -51,5 +44,17 @@ export class Sprite extends Node{
 		s.x, s.y, this.frameWidth, this.frameHeight,
 		0, 0,
 		this.frameWidth, this.frameHeight)
+	}
+	update(){
+		super.update()
+
+		const frames = this.animations[this.currentAnimation]
+
+		this.elapsedTime++
+		if(this.elapsedTime >= this.frameDuration){
+			this.frameIndex++
+			this.elapsedTime = 0
+		}
+		if(this.frameIndex >= frames.length) this.frameIndex = 0
 	}
 }
