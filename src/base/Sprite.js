@@ -2,14 +2,13 @@ import {Vector2} from './Utils.js'
 import Node from './Node.js'
 
 export default class Sprite extends Node{
-	constructor(image,
-		grid = new Vector2(1, 1), 
+	constructor(image, gridX, gridY,
 		animations = {"idle": [[0, 0]]}){
 		super()
 
 		this.image = image
 	
-		this.grid = grid
+		this.grid = new Vector2(gridX, gridY)
 
 		this.animations = animations
 		this.currentAnimation = Object.keys(animations)[0]
