@@ -1,6 +1,6 @@
-import {Vector2} from './Game.js'
-import {Node} from './Node.js'
-export class TextSprite extends Node{
+import {Vector2} from './Utils.js'
+import Node from './Node.js'
+export default class TextSprite extends Node{
 	constructor(image, text){
 		super()
 

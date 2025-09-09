@@ -1,7 +1,7 @@
-import {Vector2} from './Game.js'
-import {Node} from './Node.js'
+import {Vector2} from './Utils.js'
+import Node from './Node.js'
 
-export class Sprite extends Node{
+export default class Sprite extends Node{
 	constructor(image,
 		grid = new Vector2(1, 1), 
 		animations = {"idle": [[0, 0]]}){

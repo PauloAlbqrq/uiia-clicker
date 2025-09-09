@@ -1,6 +1,6 @@
-import {Node} from "./Node.js"
+import Node from "./Node.js"
 
-export class CollisionBox extends Node{
+export default class CollisionBox extends Node{
     constructor(width = 16, height = 16, offsetX = 0, offsetY = 0){
         super()
         this.width = width

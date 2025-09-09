@@ -1,6 +1,6 @@
-import {Node} from "./Node.js"
+import Node from "./Node.js"
 
-export class StaticBody extends Node{
+export default class StaticBody extends Node{
     constructor(){
         super()
     }

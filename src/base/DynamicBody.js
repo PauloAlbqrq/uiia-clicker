@@ -1,9 +1,9 @@
-import {Node} from "./Node.js"
-import {Vector2} from "./Game.js"
-import { StaticBody } from "./StaticBody.js";
-import { CollisionBox } from "./CollisionBox.js";
+import Node from "./Node.js"
+import {Vector2} from "./Utils.js"
+import StaticBody from "./StaticBody.js";
+import CollisionBox from "./CollisionBox.js";
 
-export class DynamicBody extends Node {
+export default class DynamicBody extends Node {
     constructor() {
         super();
         this.vel = new Vector2()

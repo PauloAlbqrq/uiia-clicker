@@ -1,9 +1,10 @@
-import {Vector2} from "./Game.js"
+import {Vector2} from "./Utils.js"
 
-export class Node{
+export default class Node{
 	constructor(){
 		this.canvas = document.getElementById("canvas")
 		this.ctx = canvas.getContext("2d")
+		this.ctx.imageSmoothingEnabled = false
 
 		this.pos = new Vector2()
 		this.rotation = 0
@@ -68,7 +69,13 @@ export class Node{
 		//does nothing
 	}
 
+	//prepara a tela para iniciar o looping
 	start(func = () => {}){
+		window.addEventListener("resize", this.resizeCanvas)
+		this.resizeCanvas()
+		this.loop(func)
+	}
+	loop(func){
 		this.ctx.fillStyle = "white"
 		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
 
@@ -77,6 +84,16 @@ export class Node{
 		this.update()
 		this.draw()
 
-		requestAnimationFrame(() => this.start(func))
+		requestAnimationFrame(() => this.loop(func))
+	}
+	resizeCanvas() {
+		const windowWidth = window.innerWidth
+		const windowHeight = window.innerHeight
+		const scaleX = windowWidth / this.canvas.width
+		const scaleY = windowHeight / this.canvas.height
+		const scale = Math.min(scaleX, scaleY)
+
+		this.canvas.style.width = this.canvas.width * scale + "px"
+		this.canvas.style.height = this.canvas.height * scale + "px"
 	}
 }
