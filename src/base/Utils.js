@@ -1,4 +1,3 @@
-
 function load(src){
 	return new Promise((resolve, reject) => {
 	const img = new Image();
@@ -7,7 +6,7 @@ function load(src){
 	img.src = src;
 	})
 }
-class Input {
+class Input{
 constructor(){
 	this.keys = {
 	arrowup: 0,

@@ -1,14 +1,12 @@
-import Sprite from "./base/Sprite.js"
-import TextSprite from "./base/TextSprite.js"
-import {Vector2, Input, load} from "./base/Utils.js"
+import {Vector2} from "./base/Utils.js"
 import Node from "./base/Node.js"
-import CollisionBox from "./base/CollisionBox.js"
-import StaticBody from "./base/StaticBody.js"
-import DynamicBody from "./base/DynamicBody.js"
+import cat from "./cat.js"
 
-const catImage = await load("sprites/cat.png")
+const scene = new Node()
+scene.add(cat)
 
-const cat = new Sprite(catImage, new Vector2(4, 9))
-
-cat.start(() => {
+scene.start(() => {
+	var target = new Vector2(scene.canvas.width/2-cat.pos.x-16,
+				scene.canvas.height/2-cat.pos.y-22)
+	scene.pos = scene.pos.add(target.sub(scene.pos).mul(new Vector2(0.1, 0.1)))
 })

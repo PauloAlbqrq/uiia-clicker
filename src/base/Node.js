@@ -9,7 +9,9 @@ export default class Node{
 		this.pos = new Vector2()
 		this.rotation = 0
 		this.scale = new Vector2(1, 1)
-		this.children = [];
+		this.filter = "brightness(100%)"
+		
+		this.children = []
 		this.parent = null
 	}
 
@@ -56,6 +58,7 @@ export default class Node{
 		this.ctx.translate(this.pos.x, this.pos.y)
 		this.ctx.rotate(this.rotation)
 		this.ctx.scale(this.scale.x, this.scale.y)
+		this.ctx.filter = this.filter
 		
 		this.render()
 
