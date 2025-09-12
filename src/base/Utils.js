@@ -59,6 +59,9 @@ class Vector2{
 		return new Vector2(Math.floor(this.x),
 				Math.floor(this.y))
 	}
+	scale(n){
+		return new Vector2(this.x*n, this.y*n)
+	}
 }
 
 export {Vector2, Input, load}

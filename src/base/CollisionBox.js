@@ -23,13 +23,13 @@ export default class CollisionBox extends Node{
     }
 
     getWorldX() {
-        let x = this.pos.x
-        let p = this.parent
-        while (p) {
-            x += p.pos.x
-            p = p.parent
-        }
-        return x
+	let x = this.pos.x
+	let p = this.parent
+	while (p) {
+		x += p.pos.x
+		p = p.parent
+	}
+	return x
     }
 
     getWorldY() {
@@ -55,12 +55,13 @@ export default class CollisionBox extends Node{
     }
     render(){
         if(this.debug){
-            const { x, y, w, h } = this.getAABB();
-            this.ctx.save();
-            this.ctx.strokeStyle = "red";
-            this.ctx.lineWidth = 2;
-            this.ctx.strokeRect(this.offsetX, this.offsetY, w, h);
-            this.ctx.restore();
+		const { x, y, w, h } = this.getAABB();
+		this.ctx.save();
+		this.ctx.strokeStyle = "red";
+		this.ctx.lineWidth = 2;
+		this.ctx.strokeRect(this.offsetX, this.offsetY, w, h);
+		this.ctx.restore();
+
        }
     }
 }

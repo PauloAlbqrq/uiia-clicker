@@ -27,6 +27,35 @@ export default class Node{
 		    child.parent = null;
 		}
     }
+	clone() {
+	const newNode = Object.create(Object.getPrototypeOf(this))
+
+	// Copy all own properties except parent/children
+	for (const key of Object.keys(this)) {
+		if (key === "parent" || key === "children") continue;
+
+		const value = this[key];
+
+		if (value instanceof Vector2) {
+			// deep copy vectors
+			newNode[key] = new Vector2(value.x, value.y);
+		} else {
+			// shallow copy (works for primitives and functions)
+			newNode[key] = value;
+		}
+	}
+
+	newNode.children = []
+	newNode.parent = null
+
+		// Recursively clone children
+	for (const child of this.children) {
+		const clonedChild = child.clone();
+		newNode.add(clonedChild);
+	}
+
+	return newNode;
+	}
 
 	getRoot(){
 		let current = this
@@ -48,7 +77,7 @@ export default class Node{
 
 	update(deltaTime) {
         for (const child of this.children) {
-            child.update(deltaTime);
+            child.update();
         }
     }
 
