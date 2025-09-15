@@ -1,10 +1,23 @@
-function load(src){
-	return new Promise((resolve, reject) => {
-	const img = new Image();
-	img.onload = () => resolve(img);
-	img.onerror = (err) => reject(err);
-	img.src = src;
-	})
+async function load(src){
+	const extension = src.split(".").pop().toLowerCase()
+	if(extension == "png" || extension == "jpg" || extension == "jpeg"){
+		return new Promise((resolve, reject) => {
+		const img = new Image();
+		img.onload = () => resolve(img);
+		img.onerror = (err) => reject(err);
+		img.src = src;
+		})
+	}
+	else if(extension == "json"){
+		const response = await fetch(src);
+		if (!response.ok) {
+		    throw new Error(`Failed to fetch JSON file: ${response.status}`);
+		}
+		return await response.json();
+	}
+	else{
+		throw new Error("unsupported file")
+	}
 }
 class Input{
 constructor(){
