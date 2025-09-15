@@ -32,7 +32,7 @@ export default class Node{
 
 	// Copy all own properties except parent/children
 	for (const key of Object.keys(this)) {
-		if (key === "parent" || key === "children") continue;
+		if (key === "children") continue;
 
 		const value = this[key];
 
@@ -46,7 +46,6 @@ export default class Node{
 	}
 
 	newNode.children = []
-	newNode.parent = null
 
 		// Recursively clone children
 	for (const child of this.children) {

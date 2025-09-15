@@ -14,21 +14,28 @@ export default class DynamicBody extends Node {
 
         this.pos = this.pos.add(this.vel)
 
+        const collisions = [];
         for (const obj of this.getAllNodes(this.getRoot())) {
-            if (obj === this) continue; // don't collide with self
-            if (obj instanceof StaticBody || obj instanceof DynamicBody) {
-                for (const myBox of this.children) {
-                    if (myBox instanceof CollisionBox) {
-                        for (const otherBox of obj.children) {
-                            if (otherBox instanceof CollisionBox) {
-                                if (myBox.intersects(otherBox)) {
-                                    this.resolveCollision(myBox, otherBox);
-                                }
+        if (obj === this) continue;
+        if (obj instanceof StaticBody || obj instanceof DynamicBody) {
+            for (const myBox of this.children) {
+                if (myBox instanceof CollisionBox) {
+                    for (const otherBox of obj.children) {
+                        if (otherBox instanceof CollisionBox) {
+                            if (myBox.intersects(otherBox)) {
+                                collisions.push({
+                                    myBox: myBox,
+                                    otherBox: otherBox
+                                });
                             }
                         }
                     }
                 }
             }
+        }
+    }
+        for (const collision of collisions) {
+            this.resolveCollision(collision.myBox, collision.otherBox);
         }
     }
     resolveCollision(myBox, otherBox) {
