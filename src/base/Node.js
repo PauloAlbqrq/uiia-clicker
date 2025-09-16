@@ -10,7 +10,7 @@ export default class Node{
 		this.rotation = 0
 		this.scale = new Vector2(1, 1)
 		this.filter = "brightness(100%)"
-		this.delta = performance.now()
+		this.lastTime = 0
 		
 		this.children = []
 		this.parent = null }
@@ -105,23 +105,26 @@ export default class Node{
 		window.addEventListener("resize", this.resizeCanvas)
 		this.resizeCanvas()
 		this.delta = performance.now()
-		requestAnimationFrame(() => this.loop(func))
+		requestAnimationFrame((t) => this.loop(t, func))
 	}
-	loop(func){
+	loop(currentTime, func){
 		this.ctx.fillStyle = "white"
 		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
 		
-		const timeStamp = performance.now()
-		//const deltaTime = (timeStamp - this.delta) / 1000
-		this.delta = timeStamp
-		const deltaTime = 0.1
+		if(!this.lastTime) this.lastTime = currentTime
+
+		let deltaTime = (currentTime - this.lastTime) / 1000
+		
+		console.log(1/deltaTime)
 
 		func()
 		
 		this.update(deltaTime)
 		this.draw(this.ctx)
 
-		requestAnimationFrame(() => this.loop(func))
+		this.lastTime = currentTime
+
+		requestAnimationFrame((t) => this.loop(t, func))
 	}
 	resizeCanvas() {
 		const windowWidth = window.innerWidth
