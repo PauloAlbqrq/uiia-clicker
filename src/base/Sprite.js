@@ -18,7 +18,17 @@ export default class Sprite extends Node{
 		
 		this.frameWidth = this.image.width / this.grid.x
 		this.frameHeight = this.image.height / this.grid.y
-	}
+		this.frameSources = {};
+		for (const [name, frames] of Object.entries(this.animations)) {
+		    if (!Array.isArray(frames)) {
+			throw new Error(`Animation "${name}" must be an array of [col,row] frames`);
+		    }
+		    this.frameSources[name] = frames.map(([col, row]) => ({
+			x: col * this.frameWidth,
+			y: row * this.frameHeight
+		    }));
+		}
+		}
 	play(name){
 		if (this.animations[name] && 
 			this.currentAnimation !== name){
@@ -27,32 +37,25 @@ export default class Sprite extends Node{
 			this.elapsedTime = 0;
 		}
 	}
-	render(){
-		this.frameWidth = this.image.width / this.grid.x
-		this.frameHeight = this.image.height / this.grid.y
+	render(ctx){
 		
-		const frames = this.animations[this.currentAnimation]
+		const frame = this.frameSources[this.currentAnimation][this.frameIndex];
 
-		const [col, row] = frames[this.frameIndex]
-
-		const s = new Vector2(col * this.frameWidth,
-					row * this.frameHeight)
-
-		this.ctx.drawImage(
+		ctx.drawImage(
 		this.image,
-		s.x, s.y, this.frameWidth, this.frameHeight,
+		frame.x, frame.y, this.frameWidth, this.frameHeight,
 		0, 0,
 		this.frameWidth, this.frameHeight)
 	}
-	update(){
-		super.update()
+	update(delta){
+		super.update(delta)
 
-		const frames = this.animations[this.currentAnimation]
+		const frames = this.frameSources[this.currentAnimation];
 
-		this.elapsedTime++
+		this.elapsedTime += delta
 		if(this.elapsedTime >= this.frameDuration){
 			this.frameIndex++
-			this.elapsedTime = 0
+			this.elapsedTime -= this.frameDuration
 		}
 		if(this.frameIndex >= frames.length) this.frameIndex = 0
 	}

@@ -14,22 +14,22 @@ export default class TextSprite extends Node{
 		this.animated = false
 		this.currentChar = 0
 		this.elapsedTime = 0
-		this.frameDuration = 3
+		this.frameDuration = 0.1
 	}
-	update(){
-		super.update()
+	update(delta){
+		super.update(delta)
 		if(!this.animated){
 			this.currentChar = this.text.length
 			return;
 		}
-		this.elapsedTime++
+		this.elapsedTime += delta
 		if(this.elapsedTime >= this.frameDuration &&
 		this.currentChar < this.text.length) {
 			this.currentChar++
-			this.elapsedTime = 0
+			this.elapsedTime -= this.frameDuration
 		}
 	}	
-	render(){
+	render(ctx){
 		for(let i = 0; i < this.currentChar; i++){
 			const char = this.text[i]
 			const index = this.chars.indexOf(char)
@@ -37,7 +37,7 @@ export default class TextSprite extends Node{
 
 			const sx = (index % this.charsPerRow) * this.charWidth
 			const sy = Math.floor(index / this.charsPerRow) * this.charHeight
-			this.ctx.drawImage(
+			ctx.drawImage(
 				this.fontImage,
 				sx, sy,
 				this.charWidth, this.charHeight,

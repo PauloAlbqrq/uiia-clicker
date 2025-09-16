@@ -26,15 +26,14 @@ cat.add(catBox)
 
 cat.original = cat.update
 
-cat.update = function(){
-	this.original()
+cat.update = function(delta){
+	this.original(delta)
 
 	this.vel.x = (this.input.keys.d - this.input.keys.a)
 	this.vel.y = (this.input.keys.s - this.input.keys.w)
 
-	this.vel = this.vel.scale(this.input.keys.shift + 1)
-	this.children[0].frameDuration = 6
-	this.children[0].frameDuration -= this.input.keys.shift * 2
+	this.children[0].frameDuration = 0.1 - (this.input.keys.shift / 20)
+	this.speed = 60 * (this.input.keys.shift+1)
 
 	if(this.vel.x > 0) this.children[0].play("walk_right")
 	else if(this.vel.x < 0) this.children[0].play("walk_left")

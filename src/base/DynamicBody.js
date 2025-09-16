@@ -7,12 +7,13 @@ export default class DynamicBody extends Node {
     constructor() {
         super();
         this.vel = new Vector2()
+	this.speed = 30
     }
 
-    update() {
-        super.update()
+    update(delta) {
+        super.update(delta)
 
-        this.pos = this.pos.add(this.vel)
+        this.pos = this.pos.add(this.vel.scale(delta*this.speed))
 
         const collisions = [];
         for (const obj of this.getAllNodes(this.getRoot())) {

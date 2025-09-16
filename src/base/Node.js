@@ -3,17 +3,17 @@ import {Vector2} from "./Utils.js"
 export default class Node{
 	constructor(){
 		this.canvas = document.getElementById("canvas")
-		this.ctx = canvas.getContext("2d")
+		this.ctx = canvas.getContext("2d", {willReadFrequently: false})
 		this.ctx.imageSmoothingEnabled = false
 
 		this.pos = new Vector2()
 		this.rotation = 0
 		this.scale = new Vector2(1, 1)
 		this.filter = "brightness(100%)"
+		this.delta = performance.now()
 		
 		this.children = []
-		this.parent = null
-	}
+		this.parent = null }
 
 	add(child){
 		child.parent = this
@@ -76,27 +76,27 @@ export default class Node{
 
 	update(deltaTime) {
         for (const child of this.children) {
-            child.update();
+            child.update(deltaTime);
         }
     }
 
-	draw(){
-		this.ctx.save()
+	draw(ctx){
+		ctx.save()
 
-		this.ctx.translate(this.pos.x, this.pos.y)
-		this.ctx.rotate(this.rotation)
-		this.ctx.scale(this.scale.x, this.scale.y)
-		this.ctx.filter = this.filter
+		ctx.translate(Math.round(this.pos.x), Math.round(this.pos.y))
+		if(this.rotation != 0)ctx.rotate(this.rotation)
+		if(this.scale.x != 0 || this.scale.y != 0) ctx.scale(this.scale.x, this.scale.y)
+		//this.ctx.filter = this.filter
 		
-		this.render()
+		this.render(ctx)
 
 		for(let child of this.children){
-			child.draw()
+			child.draw(ctx)
 		}
 
 		this.ctx.restore()
 	}
-	render(){
+	render(ctx){
 		//does nothing
 	}
 
@@ -104,16 +104,22 @@ export default class Node{
 	start(func = () => {}){
 		window.addEventListener("resize", this.resizeCanvas)
 		this.resizeCanvas()
-		this.loop(func)
+		this.delta = performance.now()
+		requestAnimationFrame(() => this.loop(func))
 	}
 	loop(func){
 		this.ctx.fillStyle = "white"
 		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
+		
+		const timeStamp = performance.now()
+		//const deltaTime = (timeStamp - this.delta) / 1000
+		this.delta = timeStamp
+		const deltaTime = 0.1
 
 		func()
 		
-		this.update()
-		this.draw()
+		this.update(deltaTime)
+		this.draw(this.ctx)
 
 		requestAnimationFrame(() => this.loop(func))
 	}
