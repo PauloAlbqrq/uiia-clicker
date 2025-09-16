@@ -14,15 +14,15 @@ export default class TextSprite extends Node{
 		this.animated = false
 		this.currentChar = 0
 		this.elapsedTime = 0
-		this.frameDuration = 0.1
+		this.frameDuration = 3
 	}
-	update(delta){
-		super.update(delta)
+	update(){
+		super.update()
 		if(!this.animated){
 			this.currentChar = this.text.length
 			return;
 		}
-		this.elapsedTime += delta
+		this.elapsedTime++
 		if(this.elapsedTime >= this.frameDuration &&
 		this.currentChar < this.text.length) {
 			this.currentChar++

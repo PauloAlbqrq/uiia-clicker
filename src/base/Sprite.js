@@ -14,7 +14,7 @@ export default class Sprite extends Node{
 		this.currentAnimation = Object.keys(animations)[0]
 		this.frameIndex = 0
 		this.elapsedTime = 0
-		this.frameDuration = 50
+		this.frameDuration = 5
 		
 		this.frameWidth = this.image.width / this.grid.x
 		this.frameHeight = this.image.height / this.grid.y
@@ -47,12 +47,12 @@ export default class Sprite extends Node{
 		0, 0,
 		this.frameWidth, this.frameHeight)
 	}
-	update(delta){
-		super.update(delta)
+	update(){
+		super.update()
 
 		const frames = this.frameSources[this.currentAnimation];
 
-		this.elapsedTime += delta
+		this.elapsedTime++
 		if(this.elapsedTime >= this.frameDuration){
 			this.frameIndex++
 			this.elapsedTime -= this.frameDuration

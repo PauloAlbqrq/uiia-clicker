@@ -10,14 +10,19 @@ export default class Node{
 		this.rotation = 0
 		this.scale = new Vector2(1, 1)
 		this.filter = "brightness(100%)"
+		//coisa pra calcular fps e tals
 		this.lastTime = 0
+		this.step = 1/60
+		this.accumulator = 0
 		
 		this.children = []
 		this.parent = null }
 
-	add(child){
-		child.parent = this
-		this.children.push(child)
+	add(...children){
+		for(let child of children){
+			child.parent = this
+			this.children.push(child)
+		}
 	}
 	
 	remove(child) {
@@ -74,9 +79,9 @@ export default class Node{
 		return result
 	}
 
-	update(deltaTime) {
+	update() {
         for (const child of this.children) {
-            child.update(deltaTime);
+            child.update();
         }
     }
 
@@ -94,7 +99,7 @@ export default class Node{
 			child.draw(ctx)
 		}
 
-		this.ctx.restore()
+		ctx.restore()
 	}
 	render(ctx){
 		//does nothing
@@ -108,18 +113,19 @@ export default class Node{
 		requestAnimationFrame((t) => this.loop(t, func))
 	}
 	loop(currentTime, func){
+		if(!this.lastTime) this.lastTime = currentTime
+		let deltaTime = (currentTime - this.lastTime) / 1000
+
 		this.ctx.fillStyle = "white"
 		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
-		
-		if(!this.lastTime) this.lastTime = currentTime
 
-		let deltaTime = (currentTime - this.lastTime) / 1000
+		this.accumulator += deltaTime
+		while (this.accumulator >= this.step){
+			func()
+			this.update()
+			this.accumulator -= this.step
+		}
 		
-		console.log(1/deltaTime)
-
-		func()
-		
-		this.update(deltaTime)
 		this.draw(this.ctx)
 
 		this.lastTime = currentTime
