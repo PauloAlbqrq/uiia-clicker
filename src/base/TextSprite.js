@@ -30,8 +30,17 @@ export default class TextSprite extends Node{
 		}
 	}	
 	render(ctx){
+		let x = 0
+		let y = 0
 		for(let i = 0; i < this.currentChar; i++){
 			const char = this.text[i]
+
+			if (char === "\n") {
+				x = 0
+				y += this.charHeight
+				continue
+			}
+
 			const index = this.chars.indexOf(char)
 			if (index === -1) continue;
 
@@ -41,9 +50,10 @@ export default class TextSprite extends Node{
 				this.fontImage,
 				sx, sy,
 				this.charWidth, this.charHeight,
-				i * this.charWidth, 0,
+				x, y,
 				this.charWidth, this.charHeight
 			)
+			x += this.charWidth
 		}
 	}
 }

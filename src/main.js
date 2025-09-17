@@ -3,7 +3,12 @@ import cat from "./cat.js"
 
 const tileset = new Tileset(await load("sprites/tileset.png"))
 const tilemap = new Tilemap(tileset, await load("sprites/tilemap.json"), 0, true)
-const text = new TextSprite(await load("sprites/SMW.Monospace.png"), "oi")
+const text = new TextSprite(await load("sprites/SMW.Monospace.png"), 
+							`ai que não sei o que tá ligado
+							ai que não sei o que lá
+							sou um texto com várias linha
+							várias linhas eu tenho`)
+text.animated = true
 
 const game = new Node()
 const scene = new Node()
