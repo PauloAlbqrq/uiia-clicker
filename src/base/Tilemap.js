@@ -19,6 +19,7 @@ export default class extends Node{
         for(let y = 0; y < this.height; y++){
             for(let x = 0; x < this.width; x++){
                 const index = this.data[y * this.width + x] - 1
+		if(index < 0) continue
                 const tile = this.tileset.children[index].clone()
                 tile.pos.x = x * this.tileset.tileWidth
                 tile.pos.y = y * this.tileset.tileHeight

@@ -1,0 +1,63 @@
+import {Tileset, load, StaticBody, CollisionBox} from "./base/joaoEngine.js"
+
+const collision = {
+		//laguinho
+		243: [8, 12, 8, 4],
+		244: [16, 12, 0, 4],
+		245: [8, 12, 0, 4],
+		283: [8, 16, 8, 0],
+		285: [8, 16, 0, 0],
+		323: [8, 4, 8, 0],
+		324: [16, 4, 0, 0],
+		325: [8, 4, 0, 0],
+		//casa
+		167: [12, 14, 4, 0],
+		168: [16, 14, 0, 0],
+		169: [16, 14, 0, 0],
+		170: [16, 14, 0, 0],
+		171: [12, 14, 0, 0],
+		127: [12, 16, 4, 0],
+		128: [16, 16, 0, 0],
+		129: [16, 16, 0, 0],
+		130: [16, 16, 0, 0],
+		131: [12, 16, 0, 0],
+		172: [12, 14, 4, 0],
+		173: [16, 14, 0, 0],
+		174: [16, 14, 0, 0],
+		175: [16, 14, 0, 0],
+		176: [12, 14, 0, 0],
+		132: [12, 16, 4, 0],
+		133: [16, 16, 0, 0],
+		134: [16, 16, 0, 0],
+		135: [16, 16, 0, 0],
+		136: [12, 16, 0, 0],
+		//pedras
+		45: [16, 6, 0, 10],
+		46: [16, 6, 0, 10],
+		85: [16, 14, 0, 0],
+		86: [16, 14, 0, 0],
+		204: [16, 16, 0, 2],
+		205: [16, 16, 0, 2],
+		206: [16, 16, 0, 2],
+		207: [16, 16, 0, 0],
+		208: [16, 16, 0, 0],
+		209: [16, 16, 0, 0],
+		210: [16, 16, 0, 0],
+		211: [16, 16, 0, 0],
+		}
+
+const tileset = new Tileset(await load("sprites/tilesets/Overworld.png"))
+for(let i = 0; i < Object.keys(collision).length; i++){
+	const key = Object.keys(collision)[i]
+	const data = collision[key]
+
+	const block = new StaticBody()
+	const box = new CollisionBox(data[0], data[1],
+					data[2], data[3])
+	box.debug = false
+	const sprite = tileset.children[key - 1].clone()
+	block.add(sprite, box)
+	tileset.children[key - 1] = block
+}
+
+export default tileset
