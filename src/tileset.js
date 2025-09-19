@@ -34,8 +34,8 @@ const collision = {
 		//pedras
 		45: [16, 6, 0, 10],
 		46: [16, 6, 0, 10],
-		85: [16, 14, 0, 0],
-		86: [16, 14, 0, 0],
+		85: [16, 14, 0, 1],
+		86: [16, 14, 0, 1],
 		204: [16, 16, 0, 2],
 		205: [16, 16, 0, 2],
 		206: [16, 16, 0, 2],
@@ -44,6 +44,19 @@ const collision = {
 		209: [16, 16, 0, 0],
 		210: [16, 16, 0, 0],
 		211: [16, 16, 0, 0],
+		//colinas	
+		365: [16, 16, 0, 0],
+		366: [16, 16, 0, 0],
+		367: [16, 16, 0, 0],
+		367: [16, 16, 0, 0],
+		405: [16, 16, 0, 0],
+		407: [16, 16, 0, 0],
+		441: [16, 16, 0, 0],
+		442: [16, 16, 0, 0],
+		443: [16, 16, 0, 0],
+		445: [16, 16, 0, 0],
+		446: [16, 16, 0, 0],
+		447: [16, 16, 0, 0],
 		}
 
 const tileset = new Tileset(await load("sprites/tilesets/Overworld.png"))
@@ -54,7 +67,7 @@ for(let i = 0; i < Object.keys(collision).length; i++){
 	const block = new StaticBody()
 	const box = new CollisionBox(data[0], data[1],
 					data[2], data[3])
-	box.debug = false
+	box.debug = true
 	const sprite = tileset.children[key - 1].clone()
 	block.add(sprite, box)
 	tileset.children[key - 1] = block
