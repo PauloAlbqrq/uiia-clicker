@@ -35,10 +35,22 @@ cat.update = function(){
 	this.children[0].frameDuration = 5 - (this.input.keys.shift*2)
 	this.speed = 1 * (this.input.keys.shift+1)
 
-	if(this.vel.x > 0) this.children[0].play("walk_right")
-	else if(this.vel.x < 0) this.children[0].play("walk_left")
-	else if(this.vel.y > 0) this.children[0].play("walk_down")
-	else if(this.vel.y < 0) this.children[0].play("walk_up")
+	if(this.vel.x > 0) {
+		this.children[0].play("walk_right")
+		this.children[1].setAttributes(20, 16, 8, 12)
+	}
+	else if(this.vel.x < 0){
+		this.children[0].play("walk_left")
+		this.children[1].setAttributes(20, 16, 6, 12)
+	} 
+	else if(this.vel.y > 0) {
+		this.children[0].play("walk_down")
+		this.children[1].setAttributes(12, 16, 10, 12)
+	}
+	else if(this.vel.y < 0){
+		this.children[0].play("walk_up")
+		this.children[1].setAttributes(12, 16, 10, 12)
+	}
 	if(this.vel.x == 0 && this.vel.y == 0) this.children[0].play(Object.keys(this.children[0].animations)[Object.keys(this.children[0].animations).indexOf(this.children[0].currentAnimation)-4])
 }
 

@@ -11,7 +11,12 @@ export default class CollisionBox extends Node{
 
         this.debug = false
     }
-
+    setAttributes(w, h, x, y){
+        this.width = w
+        this.height = h
+        this.offsetX = x
+        this.offsetY = y
+    }
     getAABB() {
         // world position from parent transforms
         return {

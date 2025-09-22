@@ -40,25 +40,41 @@ export default class DynamicBody extends Node {
         }
     }
     resolveCollision(myBox, otherBox) {
-        const a = myBox.getAABB();
-        const b = otherBox.getAABB();
+    const a = myBox.getAABB();
+    const b = otherBox.getAABB();
 
-        const overlapX = (a.x + a.w / 2) - (b.x + b.w / 2);
-        const overlapY = (a.y + a.h / 2) - (b.y + b.h / 2);
-        const halfW = (a.w + b.w) / 2;
-        const halfH = (a.h + b.h) / 2;
+    const overlapX = (a.x + a.w / 2) - (b.x + b.w / 2);
+    const overlapY = (a.y + a.h / 2) - (b.y + b.h / 2);
+    const halfW = (a.w + b.w) / 2;
+    const halfH = (a.h + b.h) / 2;
 
-        if (Math.abs(overlapX) < halfW && Math.abs(overlapY) < halfH) {
-            const penX = halfW - Math.abs(overlapX);
-            const penY = halfH - Math.abs(overlapY);
-
-            if (penX < penY) {
-                this.pos.x += overlapX > 0 ? penX : -penX;
-                this.vel.x = 0;
+    if (Math.abs(overlapX) < halfW && Math.abs(overlapY) < halfH) {
+        const penX = halfW - Math.abs(overlapX);
+        const penY = halfH - Math.abs(overlapY);
+        
+        // Horizontal Collision
+        if (Math.abs(penX) < Math.abs(penY)) {
+            // Adjust position
+            if (overlapX > 0) {
+                this.pos.x += penX;
             } else {
-                this.pos.y += overlapY > 0 ? penY : -penY;
-                this.vel.y = 0;
+                this.pos.x -= penX;
             }
+            // Reset velocity
+            this.vel.x = 0;
+        } 
+        
+        // Vertical Collision
+        if (Math.abs(penY) < Math.abs(penX)) {
+            // Adjust position
+            if (overlapY > 0) {
+                this.pos.y += penY;
+            } else {
+                this.pos.y -= penY;
+            }
+            // Reset velocity
+            this.vel.y = 0;
         }
     }
+}
 }
