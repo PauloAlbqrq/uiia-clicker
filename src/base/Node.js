@@ -3,7 +3,7 @@ import {Vector2} from "./Utils.js"
 export default class Node{
 	constructor(){
 		this.canvas = document.getElementById("canvas")
-		this.ctx = canvas.getContext("2d", {willReadFrequently: false})
+		this.ctx = this.canvas.getContext("2d", {willReadFrequently: false})
 		this.ctx.imageSmoothingEnabled = false
 
 		this.pos = new Vector2()

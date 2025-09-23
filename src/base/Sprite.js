@@ -2,7 +2,7 @@ import {Vector2} from './Utils.js'
 import Node from './Node.js'
 
 export default class Sprite extends Node{
-	constructor(image, gridX, gridY,
+	constructor(image, gridX = 1, gridY = 1,
 		animations = {"idle": [[0, 0]]}){
 		super()
 

@@ -1,7 +1,7 @@
 import Node from "./Node.js"
 
 export default class CollisionBox extends Node{
-    constructor(width = 16, height = 16, offsetX = 0, offsetY = 0){
+    constructor(width = 16, height = 16, offsetX = 0, offsetY = 0, debug = false){
         super()
         this.width = width
         this.height = height
@@ -9,7 +9,7 @@ export default class CollisionBox extends Node{
         this.offsetX = offsetX
         this.offsetY = offsetY
 
-        this.debug = false
+        this.debug = debug
     }
     setAttributes(w, h, x, y){
         this.width = w
@@ -48,6 +48,7 @@ export default class CollisionBox extends Node{
     }
 
     intersects(otherBox) {
+	if(!(otherBox instanceof CollisionBox)) return false
         const a = this.getAABB();
         const b = otherBox.getAABB();
 
@@ -58,7 +59,7 @@ export default class CollisionBox extends Node{
             a.y > b.y + b.h
         );
     }
-    render(){
+   render(){
         if(this.debug){
 		const { x, y, w, h } = this.getAABB();
 		this.ctx.save();

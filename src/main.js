@@ -1,15 +1,25 @@
-import {Node, TextSprite, Tileset, Tilemap, Vector2, load} from "./base/joaoEngine.js"
+import {Node, StaticBody, Sprite, CollisionBox, TextSprite, Tileset, Tilemap, Vector2, load} from "./base/joaoEngine.js"
 import cat from "./cat.js"
 import tileset from "./tileset.js"
+import dialogManager from "./dialogManager.js"
 
-const tilemap = new Tilemap(tileset, await load("sprites/tilemap.json"), 0, false)
-const tilemap2 = new Tilemap(tileset, await load("sprites/tilemap.json"), 1, false)
-cat.pos.x = 50
-cat.pos.y = 50
+
+const tilemap = new Tilemap(tileset, await load("sprites/tilemap.json"), 0, true)
+const tilemap2 = new Tilemap(tileset, await load("sprites/tilemap.json"), 1, true)
+cat.pos.set(50, 50)
+dialogManager.dialogCollision = cat.children[2].children[0]
+dialogManager.pos.y = 148
+
+//sans
+const sans = new StaticBody()
+sans.dialog = "EU SOU O SANS E EU\nTENHO UM DIALOGO"
+sans.pos.set(100, 50)
+sans.add(new Sprite(await load("sprites/sans.png")))
+sans.add(new CollisionBox(16, 30, 3, 0, true))
 
 const scene = new Node()
 
-scene.add(tilemap, tilemap2, cat)
+scene.add(tilemap, tilemap2, sans, cat, dialogManager)
 
 const cameraBounds = {
 	xMin: 0,

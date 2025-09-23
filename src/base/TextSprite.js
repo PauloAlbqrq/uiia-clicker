@@ -1,7 +1,7 @@
 import {Vector2} from './Utils.js'
 import Node from './Node.js'
 export default class TextSprite extends Node{
-	constructor(image, text){
+	constructor(image, text, animated = false){
 		super()
 
 		this.fontImage = image
@@ -11,7 +11,7 @@ export default class TextSprite extends Node{
 		this.charsPerRow = 16
 		this.text = text
 		
-		this.animated = false
+		this.animated = animated
 		this.currentChar = 0
 		this.elapsedTime = 0
 		this.frameDuration = 3

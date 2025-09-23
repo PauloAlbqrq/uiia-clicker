@@ -8,6 +8,7 @@ import DynamicBody from "./base/DynamicBody.js"
 
 const cat = new DynamicBody()
 const catBox = new CollisionBox(16, 16, 8, 12)
+catBox.debug = true
 const catImage = await load("sprites/cat.png")
 const animation = {idle_down: [[0, 0]],
 	idle_right: [[0, 1]],
@@ -21,8 +22,13 @@ const animation = {idle_down: [[0, 0]],
 const catSprite = new Sprite(catImage, 4, 9, animation)
 cat.input = new Input()
 
-cat.add(catSprite)
-cat.add(catBox)
+const dialogNode = new Node()
+const dialogCollision = new CollisionBox(8, 8, 4, 4)
+dialogNode.pos.set(8, 32)
+dialogCollision.debug = true
+dialogNode.add(dialogCollision)
+
+cat.add(catSprite, catBox, dialogNode)
 
 cat.original = cat.update
 
@@ -38,18 +44,22 @@ cat.update = function(){
 	if(this.vel.x > 0) {
 		this.children[0].play("walk_right")
 		this.children[1].setAttributes(20, 16, 8, 12)
+		this.children[2].pos.set(32, 14)
 	}
 	else if(this.vel.x < 0){
 		this.children[0].play("walk_left")
 		this.children[1].setAttributes(20, 16, 6, 12)
+		this.children[2].pos.set(-16, 14)
 	} 
 	else if(this.vel.y > 0) {
 		this.children[0].play("walk_down")
 		this.children[1].setAttributes(12, 16, 10, 12)
+		this.children[2].pos.set(8, 32)
 	}
 	else if(this.vel.y < 0){
 		this.children[0].play("walk_up")
 		this.children[1].setAttributes(12, 16, 10, 12)
+		this.children[2].pos.set(8, -8)
 	}
 	if(this.vel.x == 0 && this.vel.y == 0) this.children[0].play(Object.keys(this.children[0].animations)[Object.keys(this.children[0].animations).indexOf(this.children[0].currentAnimation)-4])
 }
