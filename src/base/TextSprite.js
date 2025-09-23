@@ -26,7 +26,7 @@ export default class TextSprite extends Node{
 		if(this.elapsedTime >= this.frameDuration &&
 		this.currentChar < this.text.length) {
 			this.currentChar++
-			this.elapsedTime -= this.frameDuration
+			this.elapsedTime = 0
 		}
 	}	
 	render(ctx){

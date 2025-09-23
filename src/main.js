@@ -12,14 +12,18 @@ dialogManager.pos.y = 148
 
 //sans
 const sans = new StaticBody()
-sans.dialog = "EU SOU O SANS E EU\nTENHO UM DIALOGO"
+sans.dialog = ["  este texto tem\nvárias linhas e\nvárias linhas tem\nesse texto aqui", "  e e e e e e e e e\ne e e e e e e e e\ne e e e e e e e e e\ne e e e e e e e e"]
 sans.pos.set(100, 50)
 sans.add(new Sprite(await load("sprites/sans.png")))
 sans.add(new CollisionBox(16, 30, 3, 0, true))
 
 const scene = new Node()
+const hud = new Node()
+const game = new Node()
 
-scene.add(tilemap, tilemap2, sans, cat, dialogManager)
+scene.add(tilemap, tilemap2, sans, cat)
+hud.add(dialogManager)
+game.add(scene, hud)
 
 const cameraBounds = {
 	xMin: 0,
@@ -28,7 +32,7 @@ const cameraBounds = {
 	yMax: 352
 }
 
-scene.start(() => {
+game.start(() => {
 	//faz a câmera seguir o gato
 	var target = new Vector2(scene.canvas.width/2-cat.pos.x-16, scene.canvas.height/2-cat.pos.y-22)
 	scene.pos = scene.pos.add(target.sub(scene.pos).scale(0.1))

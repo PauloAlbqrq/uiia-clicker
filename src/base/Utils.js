@@ -35,10 +35,17 @@ constructor(){
 	z: 0,
 	shift: 0
 	}
+	this.keysPressed = {}
+	for (const key in this.keys) {
+		this.keysPressed[key] = 0
+	}
 
 	window.addEventListener("keydown", (e) => {
 		const key = e.key.toLowerCase()
 		if (this.keys.hasOwnProperty(key)){
+			if(!this.keys[key]){
+				this.keysPressed[key] = 1
+			}
 			this.keys[key] = 1
 		}
 	})
@@ -47,9 +54,17 @@ constructor(){
 		const key = e.key.toLowerCase()
 		if (this.keys.hasOwnProperty(key)){
 			this.keys[key] = 0
+			this.keysPressed[key] = 0
 		}
 	})
+}
+isPressed(key){
+	if(this.keysPressed.hasOwnProperty(key)){
+		const value = this.keysPressed[key]
+		this.keysPressed[key] = 0
+		return value
 	}
+}
 }
 class Vector2{
 	constructor(x = 0, y = 0){
