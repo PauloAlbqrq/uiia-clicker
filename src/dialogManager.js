@@ -10,6 +10,7 @@ dialogManager.active = false
 dialogManager.sprite = new Sprite(await load("sprites/textbox.png"))
 dialogManager.textArray = []
 dialogManager.text = new TextSprite(await load("sprites/SMW.Monospace.png"), "aaa", true)
+dialogManager.text.frameDuration = 2
 dialogManager.currentLine = 0
 
 dialogManager.update = function(){
@@ -17,7 +18,6 @@ dialogManager.update = function(){
 
 
 	if(!this.dialogCollision)return
-	console.log(this.text.frameDuration)
 	const interacting = this.input.isPressed("z")
 	for(const obj of this.getAllNodes(this.getRoot())){
 		if(obj != this.dialogCollision && this.dialogCollision.intersects(obj) && obj.parent.dialog && interacting && !this.active){

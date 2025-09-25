@@ -1,6 +1,6 @@
 import Node from "./Node.js";
 
-export default class extends Node{
+class TilemapLayer extends Node{
     constructor(tileset, tilemap, layer = 0, fixed = false){
         super()
         this.tileset = tileset
@@ -37,4 +37,18 @@ export default class extends Node{
 		}
 		ctx.drawImage(this.bufferCanvas, 0, 0)
 	}
+}
+
+export default class Tilemap extends Node{
+    constructor(tileset, tilemap, fixed = false){
+        super()
+        this.tileset = tileset
+        this.tilemap = tilemap
+
+        for(let i = 0; i < this.tilemap.layers.length; i++){
+            const newLayer = new TilemapLayer(this.tileset, this.tilemap, i, this.fixed)
+            newLayer.z = i
+            this.add(newLayer)
+        }
+    }
 }

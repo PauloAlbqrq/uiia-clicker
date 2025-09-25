@@ -7,6 +7,7 @@ export default class Node{
 		this.ctx.imageSmoothingEnabled = false
 
 		this.pos = new Vector2()
+		this.z = 0
 		this.rotation = 0
 		this.scale = new Vector2(1, 1)
 		this.filter = "brightness(100%)"
@@ -95,7 +96,8 @@ export default class Node{
 		
 		this.render(ctx)
 
-		for(let child of this.children){
+		const sortedChildren = [...this.children].sort((a, b) => a.z - b.z)
+		for(let child of sortedChildren){
 			child.draw(ctx)
 		}
 
