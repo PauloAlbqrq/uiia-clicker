@@ -7,9 +7,9 @@ dialogManager.input = new Input()
 
 dialogManager.original = dialogManager.update
 dialogManager.active = false
-dialogManager.sprite = new Sprite(await load("sprites/textbox.png"))
+dialogManager.sprite = new Sprite(await load("assets/sprites/textbox.png"))
 dialogManager.textArray = []
-dialogManager.text = new TextSprite(await load("sprites/SMW.Monospace.png"), "aaa", true)
+dialogManager.text = new TextSprite(await load("assets/sprites/SMW.Monospace.png"), "aaa", true)
 dialogManager.text.frameDuration = 2
 dialogManager.currentLine = 0
 

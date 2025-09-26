@@ -9,7 +9,7 @@ import DynamicBody from "./base/DynamicBody.js"
 const cat = new DynamicBody()
 const catBox = new CollisionBox(16, 16, 8, 12)
 catBox.debug = true
-const catImage = await load("sprites/cat.png")
+const catImage = await load("assets/sprites/cat.png")
 const animation = {idle_down: [[0, 0]],
 	idle_right: [[0, 1]],
 	idle_up: [[0, 2]],

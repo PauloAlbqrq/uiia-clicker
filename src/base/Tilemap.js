@@ -44,6 +44,7 @@ export default class Tilemap extends Node{
         super()
         this.tileset = tileset
         this.tilemap = tilemap
+	this.fixed = fixed
 
         for(let i = 0; i < this.tilemap.layers.length; i++){
             const newLayer = new TilemapLayer(this.tileset, this.tilemap, i, this.fixed)

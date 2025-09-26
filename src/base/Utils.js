@@ -8,7 +8,7 @@ async function load(src){
 		img.src = src;
 		})
 	}
-	else if(extension == "json"){
+	else if(extension == "json" || extension == "world"){
 		const response = await fetch(src);
 		if (!response.ok) {
 		    throw new Error(`Failed to fetch JSON file: ${response.status}`);
