@@ -8,7 +8,6 @@ import DynamicBody from "./base/DynamicBody.js"
 
 const cat = new DynamicBody()
 const catBox = new CollisionBox(16, 16, 8, 12)
-catBox.debug = true
 const catImage = await load("assets/sprites/cat.png")
 const animation = {idle_down: [[0, 0]],
 	idle_right: [[0, 1]],
@@ -25,7 +24,6 @@ cat.input = new Input()
 const dialogNode = new Node()
 const dialogCollision = new CollisionBox(8, 8, 4, 4)
 dialogNode.pos.set(8, 32)
-dialogCollision.debug = true
 dialogNode.add(dialogCollision)
 
 cat.add(catSprite, catBox, dialogNode)

@@ -3,7 +3,8 @@ import cat from "./cat.js"
 import dialogManager from "./dialogManager.js"
 import sceneManager from "./sceneManager.js"
 
-cat.pos.set(50, 50)
+cat.pos.set(50, 500)
+cat.z = 1.5
 
 dialogManager.dialogCollision = cat.children[2].children[0]
 dialogManager.pos.y = 148

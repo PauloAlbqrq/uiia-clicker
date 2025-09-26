@@ -25,6 +25,14 @@ export default class Node{
 			this.children.push(child)
 		}
 	}
+	addAt(child, index){
+		child.parent = this
+
+		if(index < 0) index = 0
+		if(index > this.children.length) index = this.children.length
+
+		this.children.splice(index, 0, child)
+	}
 	
 	remove(child) {
 		const i = this.children.indexOf(child);
@@ -34,32 +42,28 @@ export default class Node{
 		}
     }
 	clone() {
-	const newNode = Object.create(Object.getPrototypeOf(this))
+		const newNode = Object.create(Object.getPrototypeOf(this))
 
-	// Copy all own properties except parent/children
-	for (const key of Object.keys(this)) {
-		if (key === "children") continue;
+		for (const key of Object.keys(this)) {
+			if (key === "children") continue;
 
-		const value = this[key];
+			const value = this[key];
 
-		if (value instanceof Vector2) {
-			// deep copy vectors
-			newNode[key] = new Vector2(value.x, value.y);
-		} else {
-			// shallow copy (works for primitives and functions)
-			newNode[key] = value;
+			if (value instanceof Vector2) {
+				newNode[key] = new Vector2(value.x, value.y);
+			} else {
+				newNode[key] = value;
+			}
 		}
-	}
 
-	newNode.children = []
+		newNode.children = []
 
-		// Recursively clone children
-	for (const child of this.children) {
-		const clonedChild = child.clone();
-		newNode.add(clonedChild);
-	}
+		for (const child of this.children) {
+			const clonedChild = child.clone();
+			newNode.add(clonedChild);
+		}
 
-	return newNode;
+		return newNode;
 	}
 
 	getRoot(){
@@ -79,34 +83,45 @@ export default class Node{
 		walk(root)
 		return result
 	}
+	getGlobalZ(){
+		let z = this.z
+		let current = this.parent
+		while(current){
+			z += current.z
+			current = current.parent
+		}
+		return z
+	}
 
 	update() {
         for (const child of this.children) {
             child.update();
         }
     }
-
+	//função para desenhar todos os sprites em ordem crescente de acordo com o Z
 	draw(ctx){
-		ctx.save()
+		const allNodes = this.getAllNodes(this).sort((a, b) => a.getGlobalZ() - b.getGlobalZ())
+		for(let node of allNodes) {
+			this.ctx.save()
 
-		ctx.translate(Math.round(this.pos.x), Math.round(this.pos.y))
-		if(this.rotation != 0)ctx.rotate(this.rotation)
-		if(this.scale.x != 0 || this.scale.y != 0) ctx.scale(this.scale.x, this.scale.y)
-		//this.ctx.filter = this.filter
-		
-		this.render(ctx)
-
-		const sortedChildren = [...this.children].sort((a, b) => a.z - b.z)
-		for(let child of sortedChildren){
-			child.draw(ctx)
+			let stack = []
+			let current = node
+			while(current){
+				stack.unshift(current)
+				current = current.parent
+			}
+			for(let n of stack){
+				this.ctx.translate(Math.round(n.pos.x), Math.round(n.pos.y))
+				if (n.rotation !== 0) this.ctx.rotate(n.rotation)
+				if (n.scale.x !== 0 || n.scale.y !== 0) this.ctx.scale(n.scale.x, n.scale.y)
+			}
+			node.render(this.ctx)
+			this.ctx.restore()
 		}
-
-		ctx.restore()
 	}
 	render(ctx){
-		//does nothing
+		//nos Sprites essa função aqui vai desenhar o sprite em si
 	}
-
 	//prepara a tela para iniciar o looping
 	start(func = () => {}){
 		window.addEventListener("resize", this.resizeCanvas)
@@ -127,7 +142,7 @@ export default class Node{
 			this.update()
 			this.accumulator -= this.step
 		}
-		
+
 		this.draw(this.ctx)
 
 		this.lastTime = currentTime
