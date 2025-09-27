@@ -7,8 +7,8 @@ class TilemapLayer extends Node{
         this.tilemap = tilemap.layers[layer]
 
         this.data = this.tilemap.data
-        this.width = this.tilemap.width
-        this.height = this.tilemap.height
+        this.width = this.tilemap.width 
+	this.height = this.tilemap.height
 
 	this.bufferCanvas = document.createElement("canvas")
 	this.bufferCanvas.width = this.width * this.tileset.tileWidth
@@ -33,13 +33,14 @@ class TilemapLayer extends Node{
 	draw(ctx){
 		if(!this.fixed){
 			super.draw(ctx)
+			console.log("não está fixed")
 			return
 		}
 		ctx.drawImage(this.bufferCanvas, 0, 0)
 	}
 }
 
-export default class Tilemap extends Node{
+class Tilemap extends Node{
     constructor(tileset, tilemap, fixed = false){
         super()
         this.tileset = tileset
@@ -53,3 +54,6 @@ export default class Tilemap extends Node{
         }
     }
 }
+
+export default Tilemap
+export {Tilemap, TilemapLayer}

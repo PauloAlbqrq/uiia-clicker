@@ -33,7 +33,7 @@ export default class Node{
 
 		this.children.splice(index, 0, child)
 	}
-	
+
 	remove(child) {
 		const i = this.children.indexOf(child);
 		if (i !== -1) {
@@ -83,41 +83,29 @@ export default class Node{
 		walk(root)
 		return result
 	}
-	getGlobalZ(){
-		let z = this.z
-		let current = this.parent
-		while(current){
-			z += current.z
-			current = current.parent
-		}
-		return z
-	}
 
 	update() {
         for (const child of this.children) {
             child.update();
         }
     }
-	//função para desenhar todos os sprites em ordem crescente de acordo com o Z
 	draw(ctx){
-		const allNodes = this.getAllNodes(this).sort((a, b) => a.getGlobalZ() - b.getGlobalZ())
-		for(let node of allNodes) {
-			this.ctx.save()
+		const saveOrNot = (this.pos.x || this.pos.y ||
+				this.rotation ||
+				this.scale.x || this.scale.y )
+		if(saveOrNot) ctx.save()
 
-			let stack = []
-			let current = node
-			while(current){
-				stack.unshift(current)
-				current = current.parent
-			}
-			for(let n of stack){
-				this.ctx.translate(Math.round(n.pos.x), Math.round(n.pos.y))
-				if (n.rotation !== 0) this.ctx.rotate(n.rotation)
-				if (n.scale.x !== 0 || n.scale.y !== 0) this.ctx.scale(n.scale.x, n.scale.y)
-			}
-			node.render(this.ctx)
-			this.ctx.restore()
+		if(this.pos.x || this.pos.y) ctx.translate(Math.round(this.pos.x), Math.round(this.pos.y))
+		if(this.rotation)ctx.rotate(this.rotation)
+		if(this.scale.x || this.scale.y ) ctx.scale(this.scale.x, this.scale.y)
+		
+		this.render(ctx)
+
+		for(let child of this.children){
+			child.draw(ctx)
 		}
+
+		if(saveOrNot) ctx.restore()
 	}
 	render(ctx){
 		//nos Sprites essa função aqui vai desenhar o sprite em si
@@ -133,8 +121,7 @@ export default class Node{
 		if(!this.lastTime) this.lastTime = currentTime
 		let deltaTime = (currentTime - this.lastTime) / 1000
 
-		this.ctx.fillStyle = "white"
-		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
+		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 
 		this.accumulator += deltaTime
 		while (this.accumulator >= this.step){

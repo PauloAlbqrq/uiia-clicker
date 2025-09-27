@@ -1,4 +1,5 @@
 import {Node, Tilemap, load, Vector2, CollisionBox} from "./base/joaoEngine.js"
+import {TilemapLayer} from "./base/Tilemap.js"
 import tileset from "./tileset.js"
 
 const sceneManager = new Node()
@@ -22,6 +23,8 @@ sceneManager.cameraBounds = {
 	xMax: sceneManager.tilemaps[0].pos.x + sceneManager.tilemaps[0].width - 256,
 	yMax: sceneManager.tilemaps[0].pos.y + sceneManager.tilemaps[0].height - 224
 }
+const toTransfer = sceneManager.tilemaps[sceneManager.current].children.filter(child => !(child instanceof TilemapLayer))
+for(const child of toTransfer) sceneManager.tilemaps[sceneManager.current].add(toTransfer(child))
 
 sceneManager.player = null
 sceneManager.playerVel = new Vector2()
@@ -83,6 +86,7 @@ sceneManager.update = function(){
 				this.cooldown = 60
 				this.current = x
 				this.addAt(this.tilemaps[this.current], 1)
+				const toTransfer = this.tilemaps[this.current].children.filter(child => !(child instanceof TilemapLayer))
 				sceneManager.cameraBounds = {
 				xMin: sceneManager.tilemaps[this.current].pos.x,
 				yMin: sceneManager.tilemaps[this.current].pos.y,
