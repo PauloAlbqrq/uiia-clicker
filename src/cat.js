@@ -7,6 +7,7 @@ import StaticBody from "./base/StaticBody.js"
 import DynamicBody from "./base/DynamicBody.js"
 
 const cat = new DynamicBody()
+cat.active = true
 const catBox = new CollisionBox(16, 16, 8, 12)
 const catImage = await load("assets/sprites/cat.png")
 const animation = {idle_down: [[0, 0]],
@@ -33,6 +34,8 @@ cat.original = cat.update
 cat.update = function(){
 	this.original()
 
+	if(!cat.active)return
+
 	this.vel.x = (this.input.keys.d - this.input.keys.a)
 	this.vel.y = (this.input.keys.s - this.input.keys.w)
 
@@ -41,12 +44,12 @@ cat.update = function(){
 
 	if(this.vel.x > 0) {
 		this.children[0].play("walk_right")
-		this.children[1].setAttributes(20, 16, 8, 12)
+		this.children[1].setAttributes(18, 16, 10, 12)
 		this.children[2].pos.set(32, 14)
 	}
 	else if(this.vel.x < 0){
 		this.children[0].play("walk_left")
-		this.children[1].setAttributes(20, 16, 6, 12)
+		this.children[1].setAttributes(18, 16, 6, 12)
 		this.children[2].pos.set(-16, 14)
 	} 
 	else if(this.vel.y > 0) {

@@ -33,10 +33,9 @@ class TilemapLayer extends Node{
 	draw(ctx){
 		if(!this.fixed){
 			super.draw(ctx)
-			console.log("não está fixed")
 			return
 		}
-		ctx.drawImage(this.bufferCanvas, 0, 0)
+		ctx.drawImage(this.bufferCanvas, this.pos.x, this.pos.y)
 	}
 }
 

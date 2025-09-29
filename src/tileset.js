@@ -19,7 +19,7 @@ const collision = {
 		168: [16, 14, 0, 0],
 		169: [16, 14, 0, 0],
 		170: [16, 14, 0, 0],
-		171: [1, 14, 0, 0],
+		171: [10, 14, 0, 0],
 		127: [10, 16, 6, 0],
 		128: [16, 16, 0, 0],
 		129: [16, 16, 0, 0],
@@ -76,13 +76,13 @@ for(let i = 0; i < Object.keys(collision).length; i++){
 	const block = new StaticBody()
 	const box = new CollisionBox(data[0], data[1],
 					data[2], data[3])
-	box.debug = false
+	box.debug = true
 	const sprite = tileset.children[key - 1].clone()
 	block.add(sprite, box)
 	if(data.length > 4){
 		const box2 = new CollisionBox(data[4], data[5],
 					data[6], data[7])
-		box2.debug = false
+		box2.debug = true
 		block.add(box2)
 	}
 	tileset.children[key - 1] = block
