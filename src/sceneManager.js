@@ -1,5 +1,4 @@
 import {Node, Tilemap, load, Vector2, CollisionBox} from "./base/joaoEngine.js"
-import {TilemapLayer} from "./base/Tilemap.js"
 import tileset from "./tileset.js"
 
 const sceneManager = new Node()
@@ -9,8 +8,8 @@ sceneManager.tilemaps = []
 for(let i = 0; i < sceneManager.world.maps.length; i++){
 	const tilemapJSON = await load("assets/tilemaps/"+sceneManager.world.maps[i].fileName)
 	const tilemap = new Tilemap(tileset, tilemapJSON, true)
-	tilemap.posX = sceneManager.world.maps[i].x
-	tilemap.posY = sceneManager.world.maps[i].y
+	tilemap.worldX = sceneManager.world.maps[i].x
+	tilemap.worldY = sceneManager.world.maps[i].y
 	tilemap.width = sceneManager.world.maps[i].width
 	tilemap.height = sceneManager.world.maps[i].height
 	for(let layer of tilemap.children){
@@ -19,18 +18,27 @@ for(let i = 0; i < sceneManager.world.maps.length; i++){
 	}
 	sceneManager.tilemaps.push(tilemap)
 }
-sceneManager.add(sceneManager.tilemaps[0])
+
 sceneManager.current = 0
-sceneManager.cameraBounds = {
-	xMin: sceneManager.tilemaps[0].posX,
-	yMin: sceneManager.tilemaps[0].posY,
-	xMax: sceneManager.tilemaps[0].posX + sceneManager.tilemaps[0].width - 256,
-	yMax: sceneManager.tilemaps[0].posY + sceneManager.tilemaps[0].height - 224
-}
+sceneManager.previous = 0
 
 sceneManager.player = null
 sceneManager.playerVel = new Vector2()
 sceneManager.cooldown = 0  //para impedir o player de ficar indo e voltando toda hora
+
+sceneManager.addRoom = function(index){
+	for(let layer of this.tilemaps[index].children) this.add(layer)
+	this.previous = this.current
+	this.current = index
+	this.cameraBounds = {
+		xMin: this.tilemaps[index].worldX,
+		yMin: this.tilemaps[index].worldY,
+		xMax: this.tilemaps[index].worldX + this.tilemaps[index].width - 256,
+		yMax: this.tilemaps[index].worldY + this.tilemaps[index].height - 224
+	}
+}
+
+sceneManager.addRoom(0)
 
 sceneManager.original = sceneManager.update
 
@@ -39,12 +47,7 @@ sceneManager.update = function(){
 
 	const currentScene = this.tilemaps[this.current]
 
-	const toTransfer = this.children.filter(child => !(child instanceof Tilemap))
-	for(const child of toTransfer) {
-		this.remove(child)
-		currentScene.add(child)
-	}
-	currentScene.children.sort((a, b) => a.z - b.z)
+	this.children.sort((a, b) => a.z - b.z)
 
 	//se não houver player definido, ignora
 	if(!this.player)return
@@ -66,17 +69,17 @@ sceneManager.update = function(){
 		"height": this.player.children[1].height
 	}
 	var corner = new Vector2()
-	if(box.y + box.height > currentScene.posY + currentScene.height) corner.y = 1
-	if(box.y < currentScene.posY) corner.y = -1
-	if(box.x + box.width < currentScene.posX) corner.x = -1
-	if(box.x > currentScene.posX + currentScene.width) corner.x = 1
+	if(box.y + box.height > currentScene.worldY + currentScene.height) corner.y = 1
+	if(box.y < currentScene.worldY) corner.y = -1
+	if(box.x + box.width < currentScene.worldX) corner.x = -1
+	if(box.x > currentScene.worldX + currentScene.width) corner.x = 1
 
 	if(this.cooldown){
 		this.cooldown -= 1
 		if(corner.x || corner.y)this.player.vel.set(this.playerVel.x, this.playerVel.y)
 		if(this.cooldown <= 0){
 			this.cooldown = 0
-			this.children.shift()
+			for(let layer of this.tilemaps[this.previous].children) this.remove(layer)
 		}
 		return
 	}
@@ -86,29 +89,16 @@ sceneManager.update = function(){
 		//então ele vai verificar cada sala para detectar se o jogador entrou em alguma
 		for(let x in this.tilemaps){
 			const tilemap = this.tilemaps[x]
-			const isColliding = (box.x < tilemap.posX + tilemap.width &&
-					box.x + box.width > tilemap.posX &&
-					box.y < tilemap.posY + tilemap.height &&
-					box.y + box.height > tilemap.posY)
+			const isColliding = (box.x < tilemap.worldX + tilemap.width &&
+					box.x + box.width > tilemap.worldX &&
+					box.y < tilemap.worldY + tilemap.height &&
+					box.y + box.height > tilemap.worldY)
 
 			//se o jogador entrou em alguma sala, vai iniciar a transição
 			if(isColliding && this.tilemaps[x] != currentScene){
 				this.playerVel.set(corner.x, corner.y)
 				this.cooldown = 60
-				this.current = Number(x)
-				this.add(this.tilemaps[this.current])
-				const toTransfer = currentScene.children.filter(child => !(child instanceof TilemapLayer))
-				for(const child of toTransfer) {
-					currentScene.remove(child)
-					this.tilemaps[this.current].add(child)
-				}
-				sceneManager.cameraBounds = {
-				xMin: sceneManager.tilemaps[this.current].posX,
-				yMin: sceneManager.tilemaps[this.current].posY,
-				xMax: sceneManager.tilemaps[this.current].posX + sceneManager.tilemaps[this.current].width - 256,
-				yMax: sceneManager.tilemaps[this.current].posY + sceneManager.tilemaps[this.current].height - 224
-				
-				}
+				this.addRoom(x)
 			}
 		}
 	}
