@@ -13,6 +13,13 @@
             "width": 480,
             "x": 0,
             "y": 576
+        },
+        {
+            "fileName": "house.json",
+            "height": 256,
+            "width": 256,
+            "x": 0,
+            "y": -256
         }
     ],
     "onlyShowAdjacentMaps": false,

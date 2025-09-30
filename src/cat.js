@@ -34,10 +34,11 @@ cat.original = cat.update
 cat.update = function(){
 	this.original()
 
-	if(!cat.active)return
-
-	this.vel.x = (this.input.keys.d - this.input.keys.a)
-	this.vel.y = (this.input.keys.s - this.input.keys.w)
+	this.vel.set(0, 0)
+	if(cat.active){
+		this.vel.x = (this.input.keys.d - this.input.keys.a)
+		this.vel.y = (this.input.keys.s - this.input.keys.w)
+	}
 
 	this.children[0].frameDuration = 5 - (this.input.keys.shift*2)
 	this.speed = 1 * (this.input.keys.shift+1)
