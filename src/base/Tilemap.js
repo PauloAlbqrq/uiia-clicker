@@ -46,10 +46,13 @@ class Tilemap extends Node{
         this.tilemap = tilemap
 	this.fixed = fixed
 
-        for(let i = 0; i < this.tilemap.layers.length; i++){
+	var z = 0
+        for(let i in tilemap.layers){
+	    if(tilemap.layers[i].type != "tilelayer") continue
             const newLayer = new TilemapLayer(this.tileset, this.tilemap, i, this.fixed)
-            newLayer.z = i
+            newLayer.z = z
             this.add(newLayer)
+ 	    z++
         }
     }
 }

@@ -68,7 +68,7 @@ const collision = {
 		567: [16, 16, 0, 0],
 		}
 
-const tileset = new Tileset(await load("assets/tilesets/Overworld.png"))
+const tileset = new Tileset(await load("assets/tilesets/Overworld.png"), await load("assets/tilesets/Inner.png"))
 for(let i = 0; i < Object.keys(collision).length; i++){
 	const key = Object.keys(collision)[i]
 	const data = collision[key]
