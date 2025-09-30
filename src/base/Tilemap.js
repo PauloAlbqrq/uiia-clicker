@@ -74,10 +74,12 @@ class Tilemap extends Node{
         super()
         this.tileset = tileset
         this.tilemap = tilemap
-	this.fixed = fixed
+        this.fixed = fixed
+        this.objects = []
 
 	var z = 0
         for(let i in tilemap.layers){
+        if(tilemap.layers[i].type == "objectgroup") this.objects.push(tilemap.layers[i])
 	    if(tilemap.layers[i].type != "tilelayer") continue
             const newLayer = new TilemapLayer(this.tileset, this.tilemap, i, this.fixed)
             newLayer.z = z

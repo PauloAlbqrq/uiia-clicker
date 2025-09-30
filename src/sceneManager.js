@@ -3,6 +3,9 @@ import tileset from "./tileset.js"
 
 const sceneManager = new Node()
 
+sceneManager.rectangles = {}
+sceneManager.points = {}
+
 sceneManager.world = await load("assets/tilemaps/mundo.world")
 sceneManager.tilemaps = []
 for(let i = 0; i < sceneManager.world.maps.length; i++){
@@ -16,8 +19,24 @@ for(let i = 0; i < sceneManager.world.maps.length; i++){
 		layer.pos.x = sceneManager.world.maps[i].x
 		layer.pos.y = sceneManager.world.maps[i].y
 	}
+	for(let layer of tilemap.objects){
+		for(let object of layer.objects){
+			if(object.width && object.height) {
+				sceneManager.rectangles[object.name] = object
+				sceneManager.rectangles[object.name].x += sceneManager.world.maps[i].x
+				sceneManager.rectangles[object.name].y += sceneManager.world.maps[i].y
+			}
+			else {
+				sceneManager.points[object.name] = object
+				sceneManager.points[object.name].x += sceneManager.world.maps[i].x
+				sceneManager.points[object.name].y += sceneManager.world.maps[i].y
+			}
+			
+		}
+	}
 	sceneManager.tilemaps.push(tilemap)
 }
+console.log(sceneManager.points)
 
 sceneManager.current = 0
 sceneManager.previous = 0
@@ -100,6 +119,19 @@ sceneManager.update = function(){
 				this.cooldown = 60
 				this.addRoom(x)
 			}
+		}
+	}
+
+	//detectar se entrou num teletransporte
+	for(let key of Object.keys(this.rectangles)){
+		const rect = this.rectangles[key]
+		const entered = (box.x < rect.x + rect.width &&
+						box.x + box.width > rect.x &&
+						box.y < rect.y + rect.height &&
+						box.y + box.height > rect.y)
+		if(entered && this.points[key]){
+			this.player.pos.x = this.points[key].x - 16
+			this.player.pos.y = this.points[key].y - 22
 		}
 	}
 }
