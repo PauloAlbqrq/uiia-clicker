@@ -89,6 +89,21 @@ sceneManager.update = function(){
 		"width": this.player.children[1].width,
 		"height": this.player.children[1].height
 	}
+	// clamp player position so the collision box stays inside the current scene
+	if(this.fade == null && !this.cooldown){
+		if(box.x < currentScene.worldX) {
+			this.player.pos.x += currentScene.worldX - box.x;
+		}
+		if(box.y < currentScene.worldY) {
+			this.player.pos.y += currentScene.worldY - box.y;
+		}
+		if(box.x + box.width > currentScene.worldX + currentScene.width) {
+			this.player.pos.x -= (box.x + box.width) - (currentScene.worldX + currentScene.width);
+		}
+		if(box.y + box.height > currentScene.worldY + currentScene.height) {
+			this.player.pos.y -= (box.y + box.height) - (currentScene.worldY + currentScene.height);
+		}
+	}
 	var corner = new Vector2()
 	if(box.y + box.height > currentScene.worldY + currentScene.height) corner.y = 1
 	if(box.y < currentScene.worldY) corner.y = -1
@@ -131,8 +146,30 @@ sceneManager.update = function(){
 	    this.color = "rgba(0, 0, 0," + color + ")";
 	}
 
+	//detectar se entrou num teletransporte
+	for(let key of Object.keys(this.rectangles)){
+		const rect = this.rectangles[key]
+		const entered = (box.x < rect.x + rect.width &&
+						box.x + box.width > rect.x &&
+						box.y < rect.y + rect.height &&
+						box.y + box.height > rect.y)
+		
+		if(entered && this.points[key] && (this.fade == null || this.fade < 15)){
+			
+			this.fade = this.fadeDelay
+			this.player.active = false
+			this.playerTarget.x = this.points[key].x - 16 
+			this.playerTarget.y = this.points[key].y - 22
+			this.color = "rgba(0, 0, 0, 0)"
+			this.draw = (ctx) => {
+				this.drawOriginal(ctx)
+				this.ctx.fillStyle = this.color
+				this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
+			}
+		}
+	}
 
-	if(this.cooldown){
+	if(this.cooldown && this.fade == null){
 		this.cooldown -= 1
 		if(corner.x || corner.y)this.player.vel.set(this.playerVel.x, this.playerVel.y)
 		if(this.cooldown <= 0){
@@ -157,27 +194,6 @@ sceneManager.update = function(){
 				this.playerVel.set(corner.x, corner.y)
 				this.cooldown = 60
 				this.addRoom(x)
-			}
-		}
-	}
-
-	//detectar se entrou num teletransporte
-	for(let key of Object.keys(this.rectangles)){
-		const rect = this.rectangles[key]
-		const entered = (box.x < rect.x + rect.width &&
-						box.x + box.width > rect.x &&
-						box.y < rect.y + rect.height &&
-						box.y + box.height > rect.y)
-		if(entered && this.points[key] && this.fade == null){
-			this.fade = this.fadeDelay
-			this.player.active = false
-			this.playerTarget.x = this.points[key].x - 16 
-			this.playerTarget.y = this.points[key].y - 22
-			this.color = "rgba(0, 0, 0, 0)"
-			this.draw = (ctx) => {
-				this.drawOriginal(ctx)
-				this.ctx.fillStyle = this.color
-				this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
 			}
 		}
 	}
