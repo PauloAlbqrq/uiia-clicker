@@ -3,7 +3,7 @@ import cat from "./cat.js"
 import dialogManager from "./dialogManager.js"
 import sceneManager from "./sceneManager.js"
 
-cat.pos.set(50, 10)
+cat.pos.set(300, 600)
 cat.z = 1.5
 
 dialogManager.dialogCollision = cat.children[2].children[0]
@@ -28,6 +28,6 @@ game.add(sceneManager, hud)
 
 game.start(()=>{
     if(dialogManager.active) cat.active = false
-    else cat.active = true
+    else if(dialogManager.interacting && !dialogManager.active) cat.active = true
 })
 

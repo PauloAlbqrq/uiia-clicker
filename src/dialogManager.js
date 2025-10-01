@@ -12,15 +12,16 @@ dialogManager.textArray = []
 dialogManager.text = new TextSprite(await load("assets/sprites/SMW.Monospace.png"), "aaa", true)
 dialogManager.text.frameDuration = 2
 dialogManager.currentLine = 0
+dialogManager.interacting = 0
 
 dialogManager.update = function(){
 	this.original()
 
 
 	if(!this.dialogCollision)return
-	const interacting = this.input.isPressed("z")
+	this.interacting = this.input.isPressed("z")
 	for(const obj of this.getAllNodes(this.getRoot())){
-		if(obj != this.dialogCollision && this.dialogCollision.intersects(obj) && obj.parent.dialog && interacting && !this.active){
+		if(obj != this.dialogCollision && this.dialogCollision.intersects(obj) && obj.parent.dialog && this.interacting && !this.active){
 			this.add(this.sprite)
 			this.add(this.text)
 			this.textArray = obj.parent.dialog
@@ -30,7 +31,7 @@ dialogManager.update = function(){
 			this.active = true
 		}
 	}
-	if(this.active && interacting && this.text.currentChar >= this.text.text.length){
+	if(this.active && this.interacting && this.text.currentChar >= this.text.text.length){
 		this.currentLine++
 		if(this.currentLine >= this.textArray.length){
 			this.children = []

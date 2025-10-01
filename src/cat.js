@@ -35,7 +35,7 @@ cat.update = function(){
 	this.original()
 
 	this.vel.set(0, 0)
-	if(cat.active){
+	if(this.active){
 		this.vel.x = (this.input.keys.d - this.input.keys.a)
 		this.vel.y = (this.input.keys.s - this.input.keys.w)
 	}

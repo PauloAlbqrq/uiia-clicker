@@ -18,8 +18,8 @@
             "fileName": "house.json",
             "height": 256,
             "width": 256,
-            "x": 0,
-            "y": -256
+            "x": 544,
+            "y": 624
         }
     ],
     "onlyShowAdjacentMaps": false,

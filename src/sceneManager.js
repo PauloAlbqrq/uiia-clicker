@@ -36,13 +36,14 @@ for(let i = 0; i < sceneManager.world.maps.length; i++){
 	}
 	sceneManager.tilemaps.push(tilemap)
 }
-console.log(sceneManager.points)
-
 sceneManager.current = 0
 sceneManager.previous = 0
 
 sceneManager.player = null
 sceneManager.playerVel = new Vector2()
+sceneManager.playerTarget = new Vector2()
+sceneManager.color = "rgba(0, 0, 0, 0)"
+sceneManager.fadeDelay = 30
 sceneManager.cooldown = 0  //para impedir o player de ficar indo e voltando toda hora
 
 sceneManager.addRoom = function(index){
@@ -60,6 +61,7 @@ sceneManager.addRoom = function(index){
 sceneManager.addRoom(0)
 
 sceneManager.original = sceneManager.update
+sceneManager.drawOriginal = sceneManager.draw
 
 sceneManager.update = function(){
 	this.original()
@@ -92,6 +94,43 @@ sceneManager.update = function(){
 	if(box.y < currentScene.worldY) corner.y = -1
 	if(box.x + box.width < currentScene.worldX) corner.x = -1
 	if(box.x > currentScene.worldX + currentScene.width) corner.x = 1
+
+	if(this.fade != null){
+	    this.fade--; // decrement fade
+	    const fadePlateau = 15
+
+	    // teleport player when fade reaches plateau upper edge
+	    if(this.fade == fadePlateau){
+		this.player.pos.x = this.playerTarget.x;
+		this.player.pos.y = this.playerTarget.y;
+	    }
+
+	    // activate player when fade reaches plateau lower edge
+	    if(this.fade <= -fadePlateau) this.player.active = true;
+
+	    // reset when fade reaches fadeDelay
+	    if(this.fade <= -this.fadeDelay){
+		this.draw = this.drawOriginal;
+		this.fade = null
+	    }
+
+	    // compute color
+	    let f = this.fade;
+	    let color;
+
+	    if (f >= -fadePlateau && f <= fadePlateau) {
+		color = 1; // plateau
+	    } else if (f > fadePlateau && f <= this.fadeDelay) {
+		color = 1 - (f - fadePlateau) / (this.fadeDelay - fadePlateau);
+	    } else if (f < -fadePlateau && f >= -this.fadeDelay) {
+		color = 1 - (-fadePlateau - f) / (this.fadeDelay - fadePlateau);
+	    } else {
+		color = 0;
+	    }
+
+	    this.color = "rgba(0, 0, 0," + color + ")";
+	}
+
 
 	if(this.cooldown){
 		this.cooldown -= 1
@@ -129,9 +168,17 @@ sceneManager.update = function(){
 						box.x + box.width > rect.x &&
 						box.y < rect.y + rect.height &&
 						box.y + box.height > rect.y)
-		if(entered && this.points[key]){
-			this.player.pos.x = this.points[key].x - 16
-			this.player.pos.y = this.points[key].y - 22
+		if(entered && this.points[key] && this.fade == null){
+			this.fade = this.fadeDelay
+			this.player.active = false
+			this.playerTarget.x = this.points[key].x - 16 
+			this.playerTarget.y = this.points[key].y - 22
+			this.color = "rgba(0, 0, 0, 0)"
+			this.draw = (ctx) => {
+				this.drawOriginal(ctx)
+				this.ctx.fillStyle = this.color
+				this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
+			}
 		}
 	}
 }
