@@ -118,6 +118,7 @@ sceneManager.update = function(){
 	    if(this.fade == fadePlateau){
 		this.player.pos.x = this.playerTarget.x;
 		this.player.pos.y = this.playerTarget.y;
+		for(let layer of this.tilemaps[this.previous].children) this.remove(layer)
 	    }
 
 	    // activate player when fade reaches plateau lower edge
