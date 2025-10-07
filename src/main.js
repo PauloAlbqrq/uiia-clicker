@@ -22,9 +22,9 @@ sans.add(new CollisionBox(16, 24, 3, 0))
 const hud = new Node()
 const game = new Node()
 
+
 sceneManager.add(sans, cat)
-hud.add(dialogManager)
-game.add(sceneManager, hud)
+game.add(sceneManager, dialogManager)
 
 game.start(()=>{
     if(dialogManager.active) cat.active = false
