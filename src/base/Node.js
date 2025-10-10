@@ -137,13 +137,18 @@ export default class Node{
 		requestAnimationFrame((t) => this.loop(t, func))
 	}
 	resizeCanvas() {
-		const windowWidth = window.innerWidth
-		const windowHeight = window.innerHeight
-		const scaleX = windowWidth / this.canvas.width
-		const scaleY = windowHeight / this.canvas.height
-		const scale = Math.min(scaleX, scaleY)
+	    const baseWidth = this.canvas.width;   // 256
+	    const baseHeight = this.canvas.height; // 224
+	    const windowWidth = window.innerWidth;
+	    const windowHeight = window.innerHeight;
 
-		this.canvas.style.width = this.canvas.width * scale + "px"
-		this.canvas.style.height = this.canvas.height * scale + "px"
-	}
+	    // Find max integer scale factor that fits within the window
+	    const scaleX = Math.floor(windowWidth / baseWidth);
+	    const scaleY = Math.floor(windowHeight / baseHeight);
+	    const scale = Math.max(1, Math.min(scaleX, scaleY)); // At least 1x scale
+
+	    // Apply scaled size to the canvas
+	    this.canvas.style.width = `${baseWidth * scale}px`;
+	    this.canvas.style.height = `${baseHeight * scale}px`;
+	}	
 }

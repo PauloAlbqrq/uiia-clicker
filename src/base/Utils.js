@@ -15,6 +15,20 @@ async function load(src){
 		}
 		return await response.json();
 	}
+	else if (extension === "tsx") {
+		const response = await fetch(src);
+		if (!response.ok) throw new Error(`Failed to fetch TSX file: ${response.status}`);
+
+		const xmlText = await response.text();
+
+		const parser = new DOMParser();
+		const xmlDoc = parser.parseFromString(xmlText, "application/xml");
+
+		const parserError = xmlDoc.querySelector("parsererror");
+		if (parserError) throw new Error("Error parsing XML: " + parserError.textContent);
+
+		return xmlDoc;
+	}	
 	else{
 		throw new Error("unsupported file")
 	}
