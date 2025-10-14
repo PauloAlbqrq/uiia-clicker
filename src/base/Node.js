@@ -17,23 +17,14 @@ export default class Node{
 		this.accumulator = 0
 		
 		this.children = []
-		this.parent = null }
-
+		this.parent = null 
+	}
 	add(...children){
 		for(let child of children){
 			child.parent = this
 			this.children.push(child)
 		}
 	}
-	addAt(child, index){
-		child.parent = this
-
-		if(index < 0) index = 0
-		if(index > this.children.length) index = this.children.length
-
-		this.children.splice(index, 0, child)
-	}
-
 	remove(child) {
 		const i = this.children.indexOf(child);
 		if (i !== -1) {
@@ -65,13 +56,11 @@ export default class Node{
 
 		return newNode;
 	}
-
 	getRoot(){
 		let current = this
 		while (current.parent) current = current.parent
 		return current
 	}
-
 	getAllNodes(root){
 		const result = []
 		function walk(node){
@@ -83,7 +72,6 @@ export default class Node{
 		walk(root)
 		return result
 	}
-
 	update() {
         for (const child of this.children) {
             child.update();
@@ -133,7 +121,6 @@ export default class Node{
 		this.draw(this.ctx)
 
 		this.lastTime = currentTime
-
 		requestAnimationFrame((t) => this.loop(t, func))
 	}
 }
