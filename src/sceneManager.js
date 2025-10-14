@@ -1,5 +1,11 @@
-import {Node, Tilemap, load, Vector2, CollisionBox} from "./base/joaoEngine.js"
-import tileset from "./tileset.js"
+import {Node, Tilemap, Tileset, load, Vector2, CollisionBox} from "./base/joaoEngine.js"
+
+const path = "assets/tilesets/"
+const tilesetsData = [
+	{tsx: await load(path+"Overworld.tsx"), image: await load(path+"Overworld.png")},
+	{tsx: await load(path+"Inner.tsx"), image: await load(path+"Inner.png")}
+]
+const tileset = new Tileset(tilesetsData)
 
 const sceneManager = new Node()
 
