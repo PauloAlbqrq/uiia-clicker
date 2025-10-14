@@ -1,4 +1,4 @@
-import {Vector2} from "./Utils.js"
+import {Vector2, resizeCanvas} from "./Utils.js"
 
 export default class Node{
 	constructor(){
@@ -112,8 +112,8 @@ export default class Node{
 	}
 	//prepara a tela para iniciar o looping
 	start(func = () => {}){
-		window.addEventListener("resize", this.resizeCanvas)
-		this.resizeCanvas()
+		window.addEventListener("resize", () => {resizeCanvas(this.canvas)})
+		resizeCanvas(this.canvas)
 		this.delta = performance.now()
 		requestAnimationFrame((t) => this.loop(t, func))
 	}
@@ -136,19 +136,4 @@ export default class Node{
 
 		requestAnimationFrame((t) => this.loop(t, func))
 	}
-	resizeCanvas() {
-	    const baseWidth = this.canvas.width;   // 256
-	    const baseHeight = this.canvas.height; // 224
-	    const windowWidth = window.innerWidth;
-	    const windowHeight = window.innerHeight;
-
-	    // Find max integer scale factor that fits within the window
-	    const scaleX = Math.floor(windowWidth / baseWidth);
-	    const scaleY = Math.floor(windowHeight / baseHeight);
-	    const scale = Math.max(1, Math.min(scaleX, scaleY)); // At least 1x scale
-
-	    // Apply scaled size to the canvas
-	    this.canvas.style.width = `${baseWidth * scale}px`;
-	    this.canvas.style.height = `${baseHeight * scale}px`;
-	}	
 }

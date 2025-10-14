@@ -109,6 +109,20 @@ class Vector2{
 		return new Vector2(this.x*n, this.y*n)
 	}
 }
+function resizeCanvas(canvas) {
+    const baseWidth = canvas.width;   // 256
+    const baseHeight = canvas.height; // 224
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
 
-export {Vector2, Input, load}
-export default {Vector2, Input, load}
+    // Find max integer scale factor that fits within the window
+    const scaleX = Math.floor(windowWidth / baseWidth);
+    const scaleY = Math.floor(windowHeight / baseHeight);
+    const scale = Math.max(1, Math.min(scaleX, scaleY)); // At least 1x scale
+
+    // Apply scaled size to the canvas
+    canvas.style.width = `${baseWidth * scale}px`;
+    canvas.style.height = `${baseHeight * scale}px`;
+}
+export {Vector2, Input, load, resizeCanvas}
+export default {Vector2, Input, load, resizeCanvas}
