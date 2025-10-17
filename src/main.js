@@ -1,7 +1,7 @@
 import {Node, StaticBody, Sprite, CollisionBox, TextSprite, Vector2, load} from "./base/joaoEngine.js"
 import cat from "./cat.js"
 import dialogManager from "./dialogManager.js"
-import sceneManager from "./sceneManager.js"
+import sceneManager from "./scene/sceneManager.js"
 
 cat.pos.set(300, 600)
 cat.z = 1.5
