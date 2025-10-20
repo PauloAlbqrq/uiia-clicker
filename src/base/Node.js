@@ -72,6 +72,25 @@ export default class Node{
 		walk(root)
 		return result
 	}
+	getWorldX() {
+        let x = this.pos.x
+        let p = this.parent
+        while (p) {
+                x += p.pos.x
+                p = p.parent
+        }
+        return x
+    }
+
+    getWorldY() {
+        let y = this.pos.y
+        let p = this.parent
+        while (p) {
+            y += p.pos.y
+            p = p.parent
+        }
+        return y
+    }
 	update() {
         for (const child of this.children) {
             child.update();
@@ -109,7 +128,8 @@ export default class Node{
 		if(!this.lastTime) this.lastTime = currentTime
 		let deltaTime = (currentTime - this.lastTime) / 1000
 
-		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+		this.ctx.fillStyle = "white"
+		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
 
 		this.accumulator += deltaTime
 		while (this.accumulator >= this.step){

@@ -26,28 +26,7 @@ export default class CollisionBox extends Node{
             h: this.height
         };
     }
-
-    getWorldX() {
-	let x = this.pos.x
-	let p = this.parent
-	while (p) {
-		x += p.pos.x
-		p = p.parent
-	}
-	return x
-    }
-
-    getWorldY() {
-        let y = this.pos.y
-        let p = this.parent
-        while (p) {
-            y += p.pos.y
-            p = p.parent
-        }
-        return y
-    }
-
-    intersects(otherBox) {
+        intersects(otherBox) {
 	if(!(otherBox instanceof CollisionBox)) return false
         const a = this.getAABB();
         const b = otherBox.getAABB();
@@ -57,6 +36,15 @@ export default class CollisionBox extends Node{
             a.x > b.x + b.w ||
             a.y + a.h < b.y ||
             a.y > b.y + b.h
+        );
+    }
+	containsPoint(px, py) {
+        // Check if the point (px, py) is within the box's boundaries
+        return (
+            px >= this.x &&
+            px < this.x + this.w && // Note: Use < for open end or <= for closed
+            py >= this.y &&
+            py < this.y + this.h
         );
     }
    render(){
