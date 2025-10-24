@@ -45,12 +45,12 @@ cat.update = function(){
 
 	if(this.vel.x > 0) {
 		this.children[0].play("walk_right")
-		this.children[1].setAttributes(18, 16, 10, 12)
+		this.children[1].setAttributes(18, 14, 10, 14)
 		this.children[2].pos.set(32, 14)
 	}
 	else if(this.vel.x < 0){
 		this.children[0].play("walk_left")
-		this.children[1].setAttributes(18, 16, 6, 12)
+		this.children[1].setAttributes(18, 14, 6, 14)
 		this.children[2].pos.set(-16, 14)
 	} 
 	else if(this.vel.y > 0) {

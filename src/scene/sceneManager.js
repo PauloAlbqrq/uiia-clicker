@@ -5,8 +5,11 @@ import handleTransitions from "./transition.js"
 
 const sceneManager = new Node()
 
+sceneManager.previous = 0
+sceneManager.current = 0
 sceneManager.fadeDelay = 30
 sceneManager.cooldown = 0  //para impedir o player de ficar indo e voltando toda hora
+
 
 sceneManager.addRoom = function(index){
 	for(let layer of this.tilemaps[index].children) this.add(layer)

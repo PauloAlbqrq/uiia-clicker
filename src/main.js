@@ -3,8 +3,8 @@ import cat from "./cat.js"
 import dialogManager from "./dialogManager.js"
 import sceneManager from "./scene/sceneManager.js"
 
-cat.pos.set(300, 600)
-cat.z = 1.5
+cat.pos.set(100, 100)
+cat.z = 2.5
 
 dialogManager.dialogCollision = cat.children[2].children[0]
 dialogManager.pos.y = 148
@@ -14,7 +14,7 @@ sceneManager.player = cat
 //sans
 const sans = new StaticBody()
 sans.dialog = ["  oieeeeeeee\neu sou o sans\no sans undertale -w-\n ,;,w,;,/*"]
-sans.pos.set(340, 770)
+sans.pos.set(140, 63)
 sans.z = 1.1
 sans.add(new Sprite(await load("assets/sprites/sans.png")))
 sans.add(new CollisionBox(16, 24, 3, 0))

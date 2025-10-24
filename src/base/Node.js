@@ -128,8 +128,7 @@ export default class Node{
 		if(!this.lastTime) this.lastTime = currentTime
 		let deltaTime = (currentTime - this.lastTime) / 1000
 
-		this.ctx.fillStyle = "white"
-		this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
+		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 
 		this.accumulator += deltaTime
 		while (this.accumulator >= this.step){

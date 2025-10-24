@@ -5,7 +5,8 @@ const path = "assets/tilesets/"
 export default async function loadWorld() {
     const tilesetsData = [
         { tsx: await load(path + "Overworld.tsx"), image: await load(path + "Overworld.png") },
-        { tsx: await load(path + "Inner.tsx"), image: await load(path + "Inner.png") }
+        { tsx: await load(path + "Inner.tsx"), image: await load(path + "Inner.png") },
+        { tsx: await load(path + "objects.tsx"), image: await load(path + "objects.png") }
     ]
     const tileset = new Tileset(tilesetsData)
 

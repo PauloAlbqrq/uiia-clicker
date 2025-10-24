@@ -8,18 +8,18 @@
             "y": 0
         },
         {
-            "fileName": "forest.json",
-            "height": 320,
-            "width": 480,
-            "x": 0,
-            "y": 576
-        },
-        {
             "fileName": "house.json",
             "height": 256,
             "width": 256,
-            "x": 544,
-            "y": 624
+            "x": 0,
+            "y": -272
+        },
+        {
+            "fileName": "forest.json",
+            "height": 320,
+            "width": 800,
+            "x": 0,
+            "y": 576
         }
     ],
     "onlyShowAdjacentMaps": false,
