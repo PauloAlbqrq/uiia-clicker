@@ -13,11 +13,12 @@ sceneManager.player = cat
 
 //sans
 const sans = new StaticBody()
-sans.dialog = ["  oieeeeeeee\neu sou o sans\no sans undertale -w-\n ,;,w,;,/*"]
+//sans.dialog = ["  oieeeeeeee\neu sou o sans\no sans undertale -w-\n ,;,w,;,/*"]
 sans.pos.set(140, 63)
 sans.z = 1.1
 sans.add(new Sprite(await load("assets/sprites/sans.png")))
 sans.add(new CollisionBox(16, 24, 3, 0))
+sans.enemy = true
 
 const hud = new Node()
 const game = new Node()
@@ -29,5 +30,6 @@ game.add(sceneManager, dialogManager)
 game.start(()=>{
     if(dialogManager.active) cat.active = false
     else if(dialogManager.interacting && !dialogManager.active) cat.active = true
+    if(sceneManager.battle) cat.active = false
 })
 
