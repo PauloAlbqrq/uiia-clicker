@@ -10,7 +10,7 @@ export default class Node{
 		this.z = 0
 		this.rotation = 0
 		this.scale = new Vector2(1, 1)
-		this.filter = "brightness(100%)"
+		this.filter = ""
 		//coisa pra calcular fps e tals
 		this.lastTime = 0
 		this.step = 1/60
@@ -105,12 +105,15 @@ export default class Node{
 		if(this.pos.x || this.pos.y) ctx.translate(Math.round(this.pos.x), Math.round(this.pos.y))
 		if(this.rotation)ctx.rotate(this.rotation)
 		if(this.scale.x || this.scale.y ) ctx.scale(this.scale.x, this.scale.y)
+		if(this.filter != "") ctx.filter = this.filter
 		
 		this.render(ctx)
 
 		for(let child of this.children){
 			child.draw(ctx)
 		}
+
+		ctx.filter = null
 
 		if(saveOrNot) ctx.restore()
 	}

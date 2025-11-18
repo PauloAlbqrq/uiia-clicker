@@ -9,6 +9,7 @@ export default class Sprite extends Node{
 		this.image = image
 	
 		this.grid = new Vector2(gridX, gridY)
+		this.visible = true
 
 		this.animations = animations
 		this.currentAnimation = Object.keys(animations)[0]
@@ -38,7 +39,7 @@ export default class Sprite extends Node{
 		}
 	}
 	render(ctx){
-		
+		if(!this.visible) return
 		const frame = this.frameSources[this.currentAnimation][this.frameIndex];
 
 		ctx.drawImage(

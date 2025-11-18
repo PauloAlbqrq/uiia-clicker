@@ -8,12 +8,13 @@ cat.z = 2.5
 
 dialogManager.dialogCollision = cat.children[2].children[0]
 dialogManager.pos.y = 148
+dialogManager.pos.x = 8
 
 sceneManager.player = cat
 
 //sans
 const sans = new StaticBody()
-//sans.dialog = ["  oieeeeeeee\neu sou o sans\no sans undertale -w-\n ,;,w,;,/*"]
+sans.dialog = ["oieeeeeeee eu sou o sans\no sans undertale -w-\n ,;,w,;,/*"]
 sans.pos.set(140, 63)
 sans.z = 1.1
 sans.add(new Sprite(await load("assets/sprites/sans.png")))

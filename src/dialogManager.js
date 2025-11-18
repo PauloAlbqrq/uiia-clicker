@@ -10,10 +10,10 @@ dialogManager.active = false
 dialogManager.sprite = new Sprite(await load("assets/sprites/textbox.png"))
 dialogManager.textArray = []
 dialogManager.text = new TextSprite(await load("assets/sprites/SMW.Monospace.png"), "aaa", true)
+dialogManager.text.filter = "brightness(10%)"
 dialogManager.text.frameDuration = 2
 dialogManager.currentLine = 0
 dialogManager.interacting = 0
-
 dialogManager.update = function(){
 	this.original()
 
@@ -27,7 +27,7 @@ dialogManager.update = function(){
 			this.textArray = obj.parent.dialog
 			this.text.text = this.textArray[this.currentLine]
 			this.text.currentChar = 0
-			this.text.pos.set(68, 12)
+			this.text.pos.set(16, 12)
 			this.active = true
 		}
 	}

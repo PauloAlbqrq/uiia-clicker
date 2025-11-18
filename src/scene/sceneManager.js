@@ -1,4 +1,4 @@
-import {Node, Tilemap, Input, Tileset, load, Vector2, CollisionBox, Sprite} from "../base/joaoEngine.js"
+import {Node, Tilemap, Input, Tileset, load, Vector2, CollisionBox, TextSprite, Sprite} from "../base/joaoEngine.js"
 import updateCamera from "./camera.js"
 import loadWorld from "./sceneLoader.js"
 import handleTransitions from "./transition.js"
@@ -19,6 +19,12 @@ sceneManager.option = 0
 sceneManager.enterBattle = 0
 sceneManager.exitBattle = 0
 sceneManager.options = new Sprite(await load("assets/sprites/options.png"))
+sceneManager.background = new Sprite(await load("assets/sprites/background.png"))
+sceneManager.hud = new Sprite(await load("assets/sprites/hud.png"))
+sceneManager.textbox = new Sprite(await load("assets/sprites/textbox.png"))
+sceneManager.text = new TextSprite(await load("assets/sprites/SMW.Monospace.png"), "Um inimigo selvagem\navança para o combate\n\nescolha sua ação", true)
+sceneManager.text.filter = "brightness(10%)"
+sceneManager.textbox.add(sceneManager.text)
 sceneManager.optionsTarget = new Vector2()
 
 
@@ -81,11 +87,17 @@ sceneManager.update = function(){
                 this.color = "rgba(0, 0, 0," + (1 - ((this.enterBattle - 60) / 20)) + ")";
             }
             else if (this.enterBattle == 60){
-                for(let layer of this.tilemaps[this.previous].children) this.remove(layer)
+                for(let layer of this.tilemaps[this.current].children) this.remove(layer)
                 this.originalPos = new Vector2(this.player.pos.x, this.player.pos.y)
-                this.player.pos.set(this.pos.x + 55, this.pos.y + 100)
-                this.enemy.pos.set(this.pos.x + 200, this.pos.y + 100)
+                this.player.pos.set(this.pos.x + 55, this.pos.y + 90)
+                this.enemy.pos.set(this.pos.x + 180, this.pos.y + 90)
+                this.add(this.background)
                 this.add(this.options)
+                this.add(this.hud)
+                this.add(this.textbox)
+                this.textbox.pos.x = 8
+                this.textbox.pos.y = 148
+                this.text.pos.set(16, 12)
 
             }
             else if (this.enterBattle < 60 && this.enterBattle >= 20) {
@@ -108,6 +120,9 @@ sceneManager.update = function(){
                     this.player.pos.set(this.originalPos.x, this.originalPos.y)
                     this.remove(this.enemy)
                     this.remove(this.options)
+                    this.remove(this.background)
+                    this.remove(this.hud)
+                    this.remove(this.textbox)
                     this.enemy = null
                     sceneManager.addRoom(this.current)
 
@@ -121,6 +136,7 @@ sceneManager.update = function(){
             if(this.exitBattle <= 0){
                 this.draw = this.drawOriginal;
                 this.battle = false
+                this.player.active = true
             }
         }
         if(this.turn == this.player){
@@ -132,7 +148,7 @@ sceneManager.update = function(){
                 this.option--
                 if(this.option < 0) this.option = 3
             }
-            this.optionsTarget.set(this.player.pos.x-(13*this.option)+13, this.player.pos.y-8)
+            this.optionsTarget.set(this.player.pos.x-(17*this.option)+11, this.player.pos.y-8)
             this.options.pos = this.options.pos.add(this.optionsTarget.sub(this.options.pos).scale(0.1))
             if(this.confirm){
                 if(this.option == 3){
