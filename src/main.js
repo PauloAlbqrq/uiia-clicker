@@ -15,7 +15,7 @@ sceneManager.player = cat
 //sans
 const sans = new StaticBody()
 sans.dialog = ["oieeeeeeee eu sou o sans\no sans undertale -w-\n ,;,w,;,/*"]
-sans.pos.set(140, 63)
+sans.pos.set(368, -120)
 sans.z = 1.1
 sans.add(new Sprite(await load("assets/sprites/sans.png")))
 sans.add(new CollisionBox(16, 24, 3, 0))
