@@ -14,6 +14,7 @@ sceneManager.cooldown = 0  //para impedir o player de ficar indo e voltando toda
 sceneManager.input = new Input()
 sceneManager.battle = false
 sceneManager.enemy = null
+sceneManager.shop = null
 sceneManager.turn = null
 sceneManager.option = 0
 sceneManager.enterBattle = 0
@@ -78,6 +79,10 @@ sceneManager.update = function(){
                 this.cameraActive = false
                 //for(let layer of this.tilemaps[this.previous].children) this.remove(layer)
             }
+        }
+
+        if (obj.shop && !this.shop) {
+            // if
         }
     }
     if(this.battle){

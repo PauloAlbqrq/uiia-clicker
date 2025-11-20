@@ -14,14 +14,18 @@ dialogManager.text.filter = "brightness(10%)"
 dialogManager.text.frameDuration = 2
 dialogManager.currentLine = 0
 dialogManager.interacting = 0
+dialogManager.shop = false
+dialogManager.activeChoice = 0
+dialogManager.shopOptions = []
 dialogManager.update = function(){
 	this.original()
 
 
 	if(!this.dialogCollision)return
+
 	this.interacting = this.input.isPressed("z")
 	for(const obj of this.getAllNodes(this.getRoot())){
-		if(obj != this.dialogCollision && this.dialogCollision.intersects(obj) && obj.parent.dialog && this.interacting && !this.active){
+		if(obj != this.dialogCollision && this.dialogCollision.intersects(obj) && obj.parent.dialog && !obj.parent.shop && this.interacting && !this.active){
 			this.add(this.sprite)
 			this.add(this.text)
 			this.textArray = obj.parent.dialog
@@ -30,6 +34,29 @@ dialogManager.update = function(){
 			this.text.pos.set(16, 12)
 			this.active = true
 		}
+		// shop dialog render
+		if(obj != this.dialogCollision && this.dialogCollision.intersects(obj) && obj.parent.dialog && obj.parent.shop && this.interacting && !this.active){
+			
+
+			this.add(this.sprite)
+			this.add(this.text)
+			this.textArray = ['Lojinha sus amogus']
+			this.text.text = this.textArray[this.currentLine]
+			this.text.currentChar = 0
+			this.text.pos.set(16, 15)
+			this.active = true
+			this.shopOptions = []
+
+			obj.parent.dialogChoices.forEach((choice,index) => {
+				if (index === this.activeChoice) {
+					this.text.text += `\n>> ${choice.text}`
+				} else {
+					this.text.text += `\n${choice.text}`
+				}
+				this.shopOptions.push(choice)
+			})
+		}
+		
 	}
 	if(this.active && this.interacting && this.text.currentChar >= this.text.text.length){
 		this.currentLine++
@@ -43,6 +70,25 @@ dialogManager.update = function(){
 			this.text.currentChar = 0
 		}
 	}
+	// handle shop choices
+
+	
+	if (this.active && this.shopOptions.length > 0) {
+		if (this.input.isPressed('s')) {
+			this.activeChoice = (this.activeChoice + 1) % this.shopOptions.length;
+			console.log(this.activeChoice)
+			this.update();
+		}
+		if (this.input.isPressed('w')) {
+			this.shopOptions[this.activeChoice].function();
+			this.children = []
+			this.active = false
+			this.currentLine = 0;
+			this.activeChoice = 0;
+		}
+	}
+
+	
 	
 }
 
