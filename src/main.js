@@ -30,22 +30,25 @@ amogus.add(new CollisionBox(16, 25, 0, 0, true))
 amogus.dialog = ["Lojinha sus"]
 amogus.dialogChoices = [
     {
-    text: "comprar",
-    function: () => {
-        dialogManager.shop = true
-        dialogManager.active = false
-        sceneManager.shop = true
+        text: "comprar",
+        function: () => {
+            console.log("comprar")
+            dialogManager.shop = false
+            dialogManager.active = false
+            dialogManager.children = []
+        }
+    },
+    {
+        text: "sair",
+        function: () => {
+            console.log('sair')
+            dialogManager.shop = false
+            dialogManager.children = []
+            dialogManager.active = false
+            dialogManager.currentLine = 0
+            sceneManager.shop = false
+        }
     }
-},
-{
-    text: "sair",
-    function: () => {
-        console.log('sair')
-        dialogManager.shop = false
-        dialogManager.active = false
-        sceneManager.shop = false
-    }
-}
 ]
 amogus.shop = true
 
