@@ -47,6 +47,7 @@ constructor(){
 	z: 0,
 	x: 0,
 	z: 0,
+	c: 0,
 	shift: 0
 	}
 	this.keysPressed = {}
