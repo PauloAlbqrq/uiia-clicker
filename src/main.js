@@ -30,6 +30,23 @@ sans.add(new Sprite(await load("assets/sprites/sans.png")));
 sans.add(new CollisionBox(16, 24, 3, 0));
 sans.enemy = true;
 
+//geometria
+const edu = new StaticBody();
+edu.dialog = ["Olha essa geometria!!!!"];
+edu.pos.set(170, 217);
+edu.z = 1.1;
+edu.add(new Sprite(await load("assets/sprites/edu.png")));
+edu.add(new CollisionBox(16, 24, 3, 0));
+edu.enemy = false;
+
+const geo = new StaticBody();
+geo.dialog = ["Esse cara gosta muito\nde mim."];
+geo.pos.set(186, 217);
+geo.z = 1.1;
+geo.add(new Sprite(await load("assets/sprites/geometria.png")));
+geo.add(new CollisionBox(16, 24, 3, 0));
+geo.enemy = false;
+
 // SHOP LOGICA
 function subtrairKittyCoins(nomeItem, valorItem) {
   if (cat.kc - valorItem >= 0) {
@@ -103,7 +120,7 @@ const game = new Node();
 // Carregar NPCs do arquivo npcs.js
 const npcs = await createNPCs();
 
-sceneManager.add(sans, cat, amogus, ...npcs);
+sceneManager.add(sans, cat, amogus, edu, geo, ...npcs);
 game.add(sceneManager, dialogManager);
 
 game.start(() => {
