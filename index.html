@@ -1,35 +1,43 @@
 <!DOCTYPE html>
 
 <html>
-	<head>
-	<style>
-		body, html {
-		margin: 0;
-		padding: 0;
-		height: 100%;
-		overflow: hidden;
-		background: black;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		}
-		html {
-		  background-size: 3em 3em;
-		  background-color: #201729;
-		}
-		body {
-			background: transparent;
-		}
+  <head>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+        background: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      html {
+        background-image: url("assets/sprites/border_blue.png");
+        background-size: contain;
+        background-position: center;
+        background-repeat: repeat;
+      }
+      body {
+        background: transparent;
+      }
 
-		canvas {
-		image-rendering: pixelated; 
-		image-rendering: crisp-edges;
-		display: block;
-		}
-	</style>
-	</head>
-	<body>
-		<canvas id="canvas" width="256" height="224"></canvas>
-		<script type="module" src="src/main.js"></script>	
-	</body>
+      canvas {
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
+        display: block;
+        width: 80vw;
+        height: 80vh;
+        max-width: 90vw;
+        max-height: 91vh;
+        object-fit: contain;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="256" height="224"></canvas>
+    <script type="module" src="src/main.js"></script>
+  </body>
 </html>

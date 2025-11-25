@@ -292,7 +292,7 @@ export async function createNPCs() {
   purpleSprite2.play("idle_right");
   purpleCat2.add(purpleSprite2);
   purpleCat2.add(new CollisionBox(16, 16, 8, 12));
-  purpleCat2.dialog = ["Miau! Estou estudando feitiços!"];
+  purpleCat2.dialog = ["Miau! Estou estudando\nfeitiços!"];
   npcs.push(purpleCat2);
 
   // Gato novo 2 - brincando
