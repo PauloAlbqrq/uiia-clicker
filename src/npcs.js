@@ -380,7 +380,7 @@ export async function createNPCs() {
   whiteSprite4.play("idle_left");
   whiteCat4.add(whiteSprite4);
   whiteCat4.add(new CollisionBox(16, 16, 8, 12));
-  whiteCat4.dialog = ["Miau! Exercícios são importantes!"];
+  whiteCat4.dialog = ["Miau! Exercícios são\nimportantes!"];
   npcs.push(whiteCat4);
 
   // Gato laranja 4 - DEITADO RELAXANDO
