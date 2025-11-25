@@ -28,7 +28,7 @@ sans.pos.set(368, -120);
 sans.z = 1.1;
 sans.add(new Sprite(await load("assets/sprites/sans.png")));
 sans.add(new CollisionBox(16, 24, 3, 0));
-sans.enemy = true;
+sans.hp = 20
 
 //geometria
 const edu = new StaticBody();
@@ -45,7 +45,8 @@ geo.pos.set(186, 217);
 geo.z = 1.1;
 geo.add(new Sprite(await load("assets/sprites/geometria.png")));
 geo.add(new CollisionBox(16, 24, 3, 0));
-geo.enemy = false;
+geo.enemy = true;
+geo.hp = 20
 
 // SHOP LOGICA
 function subtrairKittyCoins(nomeItem, valorItem) {
