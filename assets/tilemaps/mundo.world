@@ -15,6 +15,13 @@
             "y": -272
         },
         {
+            "fileName": "Secret.json",
+            "height": 240,
+            "width": 240,
+            "x": 272,
+            "y": -240
+        },
+        {
             "fileName": "forest.json",
             "height": 320,
             "width": 800,
@@ -22,11 +29,11 @@
             "y": 576
         },
         {
-            "fileName": "Secret.json",
-            "height": 240,
-            "width": 240,
-            "x": 272,
-            "y": -240
+            "fileName": "segundoandar.json",
+            "height": 256,
+            "width": 256,
+            "x": -256,
+            "y": -272
         }
     ],
     "onlyShowAdjacentMaps": false,
