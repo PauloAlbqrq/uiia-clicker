@@ -31,58 +31,61 @@ sans.add(new CollisionBox(16, 24, 3, 0));
 sans.enemy = true;
 
 // SHOP LOGICA
+function subtrairKittyCoins(nomeItem, valorItem) {
+  if (cat.kc - valorItem >= 0) {
+    cat.kc -= valorItem;
+    dialogManager.renderOptions(`Comprou ${nomeItem}!`);
+    console.log("Comprou Poção!");
+  } else {
+    dialogManager.renderOptions("LISO LISO!! Item não comprado.");
+    console.log("Saldo insuficiente. Item não comprado.");
+  }
+}
 const itemsForSale = [
-    {
-        text: "Poção (50g)",
-        function: () => {
-            console.log("Comprou Poção!");
-            // Optional: visual feedback
-            dialogManager.renderOptions("Comprou Poção!"); 
-        }
+  {
+    text: "Poção (50g)",
+    function: () => subtrairKittyCoins("Poção", 50),
+  },
+  {
+    text: "Espada (100g)",
+    function: () => subtrairKittyCoins("Espada", 100),
+  },
+  {
+    text: "Voltar",
+    function: () => {
+      // Restore Main Menu
+      loadMainMenu();
     },
-    {
-        text: "Espada (100g)",
-        function: () => {
-            console.log("Comprou Espada!");
-            dialogManager.renderOptions("Comprou Espada!");
-        }
-    },
-    {
-        text: "Voltar",
-        function: () => {
-            // Restore Main Menu
-            loadMainMenu();
-        }
-    }
+  },
 ];
 
 const mainMenuActions = [
-    {
-        text: "Comprar",
-        function: () => {
-            // Switch to Item List
-            dialogManager.shopOptions = itemsForSale;
-            dialogManager.activeChoice = 0; // Reset cursor to top
-            dialogManager.renderOptions("O que vai levar?"); // Update text header
-        }
+  {
+    text: "Comprar",
+    function: () => {
+      // Switch to Item List
+      dialogManager.shopOptions = itemsForSale;
+      dialogManager.activeChoice = 0; // Reset cursor to top
+      dialogManager.renderOptions("O que vai levar?"); // Update text header
     },
-    {
-        text: "Sair",
-        function: () => {
-            console.log('sair')
-            dialogManager.shop = false
-            dialogManager.children = []
-            dialogManager.active = false
-            dialogManager.currentLine = 0
-            sceneManager.shop = false
-        }
-    }
+  },
+  {
+    text: "Sair",
+    function: () => {
+      console.log("sair");
+      dialogManager.shop = false;
+      dialogManager.children = [];
+      dialogManager.active = false;
+      dialogManager.currentLine = 0;
+      sceneManager.shop = false;
+    },
+  },
 ];
 
 function loadMainMenu() {
-    dialogManager.shopOptions = mainMenuActions;
-    dialogManager.activeChoice = 0;
-    dialogManager.renderOptions("Lojinha sus amogus");
+  dialogManager.shopOptions = mainMenuActions;
+  dialogManager.activeChoice = 0;
+  dialogManager.renderOptions("Lojinha sus amogus");
 }
 
 const amogus = new StaticBody();
@@ -91,8 +94,8 @@ amogus.z = 1.1;
 amogus.add(new Sprite(await load("assets/sprites/amogusSprite.png")));
 amogus.add(new CollisionBox(16, 25, 0, 0, true));
 amogus.dialog = ["Lojinha sus"];
-amogus.dialogChoices = mainMenuActions
-amogus.shop = true
+amogus.dialogChoices = mainMenuActions;
+amogus.shop = true;
 
 const hud = new Node();
 const game = new Node();
