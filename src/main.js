@@ -28,7 +28,8 @@ sans.pos.set(368, -120);
 sans.z = 1.1;
 sans.add(new Sprite(await load("assets/sprites/sans.png")));
 sans.add(new CollisionBox(16, 24, 3, 0));
-sans.hp = 20
+sans.enemy = true;
+sans.hp = 50
 
 //geometria
 const edu = new StaticBody();
@@ -43,7 +44,7 @@ const geo = new StaticBody();
 geo.dialog = ["Esse cara gosta muito\nde mim."];
 geo.pos.set(186, 217);
 geo.z = 1.1;
-geo.add(new Sprite(await load("assets/sprites/geometria.png")));
+geo.add(new Sprite(await load("assets/sprites/Slime.png")));
 geo.add(new CollisionBox(16, 24, 3, 0));
 geo.enemy = true;
 geo.hp = 20
@@ -53,10 +54,10 @@ function subtrairKittyCoins(nomeItem, valorItem) {
   if (cat.kc - valorItem >= 0) {
     cat.kc -= valorItem;
     dialogManager.renderOptions(`Comprou ${nomeItem}!`);
-    console.log("Comprou Poção!");
+    console.log("Comprou Poção! - main.js:57");
   } else {
     dialogManager.renderOptions("LISO LISO!! Item não comprado.");
-    console.log("Saldo insuficiente. Item não comprado.");
+    console.log("Saldo insuficiente. Item não comprado. - main.js:60");
   }
 }
 const itemsForSale = [
@@ -90,7 +91,7 @@ const mainMenuActions = [
   {
     text: "Sair",
     function: () => {
-      console.log("sair");
+      console.log("sair - main.js:94");
       dialogManager.shop = false;
       dialogManager.children = [];
       dialogManager.active = false;
@@ -103,15 +104,15 @@ const mainMenuActions = [
 function loadMainMenu() {
   dialogManager.shopOptions = mainMenuActions;
   dialogManager.activeChoice = 0;
-  dialogManager.renderOptions("Lojinha sus amogus");
+  dialogManager.renderOptions("Lojinha suspeita");
 }
 
 const amogus = new StaticBody();
 amogus.pos.set(170, 73);
 amogus.z = 1.1;
-amogus.add(new Sprite(await load("assets/sprites/amogusSprite.png")));
+amogus.add(new Sprite(await load("assets/sprites/purple_catloja.png")));
 amogus.add(new CollisionBox(16, 25, 0, 0, true));
-amogus.dialog = ["Lojinha sus"];
+amogus.dialog = ["Lojinha suspeita"];
 amogus.dialogChoices = mainMenuActions;
 amogus.shop = true;
 
