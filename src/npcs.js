@@ -166,9 +166,9 @@ export async function createNPCs() {
   // Gato marrom
   const brownCat = new StaticBody();
   brownCat.pos.set(200, 150);
-  brownCat.z = 1.1;
+  brownCat.z = 4.1;
   const brownSprite = new Sprite(brownImg, 12, 5, catAnimations12x5);
-  brownSprite.play("idle_down");
+  brownSprite.play("walk_down");
   brownCat.add(brownSprite);
   brownCat.add(new CollisionBox(16, 16, 8, 12));
   brownCat.dialog = ["Miau! Quero CATNIP!"];
@@ -179,7 +179,8 @@ export async function createNPCs() {
   grayCat.pos.set(300, 200);
   grayCat.z = 1.1;
   const graySprite = new Sprite(grayImg, 4, 8, catAnimations4x8);
-  graySprite.play("idle_left");
+  graySprite.play("walk_left");
+  graySprite.frameDuration = 40
   grayCat.add(graySprite);
   grayCat.add(new CollisionBox(16, 16, 8, 12));
   grayCat.dialog = ["Miau miau! ^w^\nQuer brincar?"];
@@ -311,7 +312,7 @@ export async function createNPCs() {
   brownCat2.pos.set(530, 160);
   brownCat2.z = 1.1;
   const brownSprite2 = new Sprite(brownImg, 12, 5, catAnimations12x5);
-  brownSprite2.play("idle_right");
+  brownSprite2.play("walk_down");
   brownCat2.add(brownSprite2);
   brownCat2.add(new CollisionBox(16, 16, 8, 12));
   brownCat2.dialog = ["Miau! Precisa de algo? \n Estou vendendo!"];
@@ -366,7 +367,8 @@ export async function createNPCs() {
   grayCat4.pos.set(540, 310);
   grayCat4.z = 1.1;
   const graySprite4 = new Sprite(grayImg, 4, 8, catAnimations4x8);
-  graySprite4.play("idle_sleeping_right");
+  graySprite4.play("sleeping_right");
+  graySprite4.frameDuration = 20
   grayCat4.add(graySprite4);
   grayCat4.add(new CollisionBox(16, 16, 8, 12));
   grayCat4.dialog = ["Miau~ Descansando ao sol!"];
@@ -377,7 +379,7 @@ export async function createNPCs() {
   whiteCat4.pos.set(370, 150);
   whiteCat4.z = 1.1;
   const whiteSprite4 = new Sprite(whiteImg, 4, 9, catAnimations4x9);
-  whiteSprite4.play("idle_left");
+  whiteSprite4.play("walk_left");
   whiteCat4.add(whiteSprite4);
   whiteCat4.add(new CollisionBox(16, 16, 8, 12));
   whiteCat4.dialog = ["Miau! Exercícios são\nimportantes!"];
