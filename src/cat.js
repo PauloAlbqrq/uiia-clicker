@@ -8,6 +8,10 @@ import DynamicBody from "./base/DynamicBody.js"
 
 const cat = new DynamicBody()
 cat.active = true
+cat.hp = 100
+cat.kp = 0
+cat.kc = 0
+cat.xp = 0
 const catBox = new CollisionBox(16, 16, 8, 12)
 const catImage = await load("assets/sprites/cat.png")
 const animation = {idle_down: [[0, 0]],
