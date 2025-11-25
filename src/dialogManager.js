@@ -1,9 +1,10 @@
-import {Node, Input, Sprite, TextSprite, load} from "./base/joaoEngine.js"
+import { Node, Input, Sprite, TextSprite, load } from "./base/joaoEngine.js";
+import cat from "./cat.js";
 
-const dialogManager = new Node()
+const dialogManager = new Node();
 
-dialogManager.dialogCollision = null
-dialogManager.input = new Input()
+dialogManager.dialogCollision = null;
+dialogManager.input = new Input();
 
 dialogManager.original = dialogManager.update
 dialogManager.active = false
@@ -43,6 +44,16 @@ dialogManager.update = function(){
     if(!this.dialogCollision) return
 
     this.interacting = this.input.isPressed("z")
+
+    if (this.input.isPressed("c") && !this.active) {
+    this.add(this.sprite);
+    this.add(this.text);
+    this.textArray = [`stats\nHP: ${cat.hp}\nKP: ${cat.kp}\nKC: ${cat.kc}\nXP: ${cat.xp}`];
+    this.text.text = this.textArray[this.currentLine];
+    this.text.currentChar = 0;
+    this.text.pos.set(16, 12);
+    this.active = true;
+  }
     
     // 1. DETECT AND START DIALOG (Standard & Shop)
     for(const obj of this.getAllNodes(this.getRoot())){
@@ -116,9 +127,6 @@ dialogManager.update = function(){
             }
         }
 	}
-
-	
-	
 }
 
-export default dialogManager
+export default dialogManager;
