@@ -28,7 +28,6 @@ sans.pos.set(368, -120);
 sans.z = 1.1;
 sans.add(new Sprite(await load("assets/sprites/sans.png")));
 sans.add(new CollisionBox(16, 24, 3, 0));
-sans.enemy = true;
 sans.hp = 50
 
 //geometria
@@ -54,10 +53,10 @@ function subtrairKittyCoins(nomeItem, valorItem) {
   if (cat.kc - valorItem >= 0) {
     cat.kc -= valorItem;
     dialogManager.renderOptions(`Comprou ${nomeItem}!`);
-    console.log("Comprou Poção! - main.js:57");
+    console.log("Comprou Poção! - main.js:56");
   } else {
     dialogManager.renderOptions("LISO LISO!! Item não comprado.");
-    console.log("Saldo insuficiente. Item não comprado. - main.js:60");
+    console.log("Saldo insuficiente. Item não comprado. - main.js:59");
   }
 }
 const itemsForSale = [
@@ -91,7 +90,7 @@ const mainMenuActions = [
   {
     text: "Sair",
     function: () => {
-      console.log("sair - main.js:94");
+      console.log("sair - main.js:93");
       dialogManager.shop = false;
       dialogManager.children = [];
       dialogManager.active = false;
