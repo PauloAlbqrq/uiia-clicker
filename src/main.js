@@ -30,25 +30,44 @@ sans.add(new Sprite(await load("assets/sprites/sans.png")));
 sans.add(new CollisionBox(16, 24, 3, 0));
 sans.enemy = true;
 
-// yahu
-const amogus = new StaticBody();
-amogus.pos.set(170, 73);
-amogus.z = 1.1;
-amogus.add(new Sprite(await load("assets/sprites/amogusSprite.png")));
-amogus.add(new CollisionBox(16, 25, 0, 0, true));
-amogus.dialog = ["Lojinha sus"];
-amogus.dialogChoices = [
+// SHOP LOGICA
+const itemsForSale = [
     {
-        text: "comprar",
+        text: "Poção (50g)",
         function: () => {
-            console.log("comprar")
-            dialogManager.shop = false
-            dialogManager.active = false
-            dialogManager.children = []
+            console.log("Comprou Poção!");
+            // Optional: visual feedback
+            dialogManager.renderOptions("Comprou Poção!"); 
         }
     },
     {
-        text: "sair",
+        text: "Espada (100g)",
+        function: () => {
+            console.log("Comprou Espada!");
+            dialogManager.renderOptions("Comprou Espada!");
+        }
+    },
+    {
+        text: "Voltar",
+        function: () => {
+            // Restore Main Menu
+            loadMainMenu();
+        }
+    }
+];
+
+const mainMenuActions = [
+    {
+        text: "Comprar",
+        function: () => {
+            // Switch to Item List
+            dialogManager.shopOptions = itemsForSale;
+            dialogManager.activeChoice = 0; // Reset cursor to top
+            dialogManager.renderOptions("O que vai levar?"); // Update text header
+        }
+    },
+    {
+        text: "Sair",
         function: () => {
             console.log('sair')
             dialogManager.shop = false
@@ -58,7 +77,21 @@ amogus.dialogChoices = [
             sceneManager.shop = false
         }
     }
-]
+];
+
+function loadMainMenu() {
+    dialogManager.shopOptions = mainMenuActions;
+    dialogManager.activeChoice = 0;
+    dialogManager.renderOptions("Lojinha sus amogus");
+}
+
+const amogus = new StaticBody();
+amogus.pos.set(170, 73);
+amogus.z = 1.1;
+amogus.add(new Sprite(await load("assets/sprites/amogusSprite.png")));
+amogus.add(new CollisionBox(16, 25, 0, 0, true));
+amogus.dialog = ["Lojinha sus"];
+amogus.dialogChoices = mainMenuActions
 amogus.shop = true
 
 const hud = new Node();

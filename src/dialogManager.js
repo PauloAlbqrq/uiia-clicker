@@ -17,12 +17,26 @@ dialogManager.interacting = false
 dialogManager.shop = false
 dialogManager.activeChoice = 0
 dialogManager.shopOptions = []
+
 dialogManager.reset = function() {
-	this.active = false;
-	this.textArray = []
-	this.currentLine = 0
-	this.interacting = true
+    this.active = false;
+    this.textArray = []
+    this.currentLine = 0
+    this.interacting = true
+    this.shopOptions = []
 }
+
+dialogManager.renderOptions = function(baseText) {
+    this.text.text = baseText;
+    this.shopOptions.forEach((choice, index) => {
+        if (index === this.activeChoice) {
+            this.text.text += `\n>>> ${choice.text}`
+        } else {
+            this.text.text += `\n${choice.text}`
+        }
+    })
+}
+
 dialogManager.update = function(){
 	this.original()
 
@@ -48,22 +62,18 @@ dialogManager.update = function(){
         if(obj != this.dialogCollision && this.dialogCollision.intersects(obj) && obj.parent.dialog && obj.parent.shop && this.interacting && !this.active){
             this.add(this.sprite)
             this.add(this.text)
-            this.textArray = ['Deseja comprar algo?']
-            this.text.text = this.textArray[this.currentLine]
+            this.textArray = ['Deseja comprar algo?'] // Default Greeting
+            this.currentLine = 0
             this.text.currentChar = 0
             this.text.pos.set(16, 15)
-            this.shopOptions = []
+            this.activeChoice = 0 // Reset cursor
             this.active = true
-
-            // Populate options
-            obj.parent.dialogChoices.forEach((choice, index) => {
-                if (index === this.activeChoice) {
-                    this.text.text += `\n>>> ${choice.text}`
-                } else {
-                    this.text.text += `\n${choice.text}`
-                }
-                this.shopOptions.push(choice)
-            })
+            
+            // Load the Main Menu choices
+            this.shopOptions = obj.parent.dialogChoices
+            
+            // Render
+            this.renderOptions(this.textArray[0])
         }
     }
 
@@ -88,41 +98,15 @@ dialogManager.update = function(){
 		// tecla W
 		if (this.input.isPressed('w')) {
 			this.activeChoice = (this.activeChoice - 1 + this.shopOptions.length) % this.shopOptions.length;
-			console.log(this.activeChoice)
-			this.reset();
-			this.textArray = ['Deseja comprar algo?']
-			this.text.text = this.textArray[this.currentLine]
-			this.text.currentChar = 0
-			this.text.pos.set(16, 15)
-			this.active = true
-
-			this.shopOptions.forEach((choice,index) => {
-				if (index === this.activeChoice) {
-					this.text.text += `\n>>> ${choice.text}`
-				} else {
-					this.text.text += `\n${choice.text}`
-				}
-			})
+			let currentBase = this.text.text.split('\n')[0];
+            this.renderOptions(currentBase);
 		}
 
 		// tecla S
 		if (this.input.isPressed('s')) {
 			this.activeChoice = (this.activeChoice + 1) % this.shopOptions.length;
-			console.log(this.activeChoice)
-			this.reset();
-			this.textArray = ['Deseja comprar algo?']
-			this.text.text = this.textArray[this.currentLine]
-			this.text.currentChar = 0
-			this.text.pos.set(16, 15)
-			this.active = true
-
-			this.shopOptions.forEach((choice,index) => {
-				if (index === this.activeChoice) {
-					this.text.text += `\n>>> ${choice.text}`
-				} else {
-					this.text.text += `\n${choice.text}`
-				}
-			})
+			let currentBase = this.text.text.split('\n')[0];
+            this.renderOptions(currentBase);
 		}
 
 		if (this.interacting && this.text.currentChar >= this.text.text.length) {
