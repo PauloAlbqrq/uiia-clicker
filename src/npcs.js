@@ -271,7 +271,7 @@ export async function createNPCs() {
   orangeSprite2.play("idle_down");
   orangeCat2.add(orangeSprite2);
   orangeCat2.add(new CollisionBox(16, 16, 8, 12));
-  orangeCat2.dialog = ["Miau miau! Rápido como o vento!"];
+  orangeCat2.dialog = ["Miau miau! Rápido como o \nvento!"];
   npcs.push(orangeCat2);
 
   // Gato preto 2 - escondido
@@ -326,7 +326,7 @@ export async function createNPCs() {
   orangeSprite3.play("idle_left");
   orangeCat3.add(orangeSprite3);
   orangeCat3.add(new CollisionBox(16, 16, 8, 12));
-  orangeCat3.dialog = ["Miau! Vi um passarinho!"];
+  orangeCat3.dialog = ["Mew! Você viu alguem chamado\nAjax por aí?"];
   npcs.push(orangeCat3);
 
   // Gato preto 3 - vigia
